@@ -1,0 +1,31 @@
+.button {
+  border: none;
+  width: 100px;
+  font-size: 20px;
+  border-radius: 10px;
+  transition: 0.2s;
+  color: #ffffff;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+  }
+}
+
+.primary {
+  background-color: #4285f4;
+  border: 1px solid #4285f4;
+
+  &:hover {
+    color: #4285f4;
+  }
+}
+
+.error {
+  background-color: #db4437;
+  border: 1px solid #db4437;
+
+  &:hover {
+    color: #db4437;
+  }
+}
