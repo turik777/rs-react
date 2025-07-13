@@ -8,12 +8,14 @@ import type { Character } from './utils/interface';
 interface State {
   characters: Character[];
   loading: boolean;
+  error: string | null;
 }
 
 class App extends Component {
   state: State = {
     characters: [],
     loading: true,
+    error: null,
   };
 
   query = localStorage.getItem('search') || '';
@@ -28,23 +30,43 @@ class App extends Component {
 
   handleGetAll = async () => {
     this.setState({ loading: true });
-    const characters = await getAllCharacters();
-    this.setState({ characters, loading: false });
+    try {
+      const characters = await getAllCharacters();
+      this.setState({ characters });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({ error: error.message });
+      } else {
+        this.setState({ error: 'An unexpected error occurred.' });
+      }
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   handleSearch = async (value: string) => {
     this.setState({ loading: true });
-    const characters = await searchCharacters(value);
-    this.setState({ characters, loading: false });
+    try {
+      const characters = await searchCharacters(value);
+      this.setState({ characters });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({ error: error.message });
+      } else {
+        this.setState({ error: 'An unexpected error occurred.' });
+      }
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
-    const { characters, loading } = this.state;
+    const { characters, loading, error } = this.state;
 
     return (
       <>
         <Search search={this.handleSearch} />
-        <Result result={characters} loading={loading} />
+        <Result result={characters} loading={loading} error={error} />
       </>
     );
   }

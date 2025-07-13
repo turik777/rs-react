@@ -1,17 +1,11 @@
 import type { Character } from './interface';
 
 export const getAllCharacters = async (): Promise<Character[]> => {
-  try {
-    const res = await fetch(
-      'https://zelda.fanapis.com/api/characters?limit=100'
-    );
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-    const data = await res.json();
-    return data.data;
-  } catch (error) {
-    console.error('Failed to fetch characters:', error);
-    return [];
-  }
+  const res = await fetch('https://zelda.fanapis.com/api/characters?limit=30');
+  if (!res.ok)
+    throw new Error(`HTTP error! Failed to fetch data. Status: ${res.status}`);
+  const data = await res.json();
+  return data.data;
 };
 
 export async function searchCharacters(query: string) {

@@ -6,16 +6,19 @@ import Loader from '../Loader/Loader';
 interface IProps {
   result: Character[];
   loading: boolean;
+  error: string | null;
 }
 
 class Result extends Component<IProps> {
   render() {
-    const { loading, result } = this.props;
+    const { loading, result, error } = this.props;
 
     return (
       <div className={styles.result}>
         {loading ? (
           <Loader />
+        ) : error ? (
+          <div className={styles.error}>{error}</div>
         ) : result.length === 0 ? (
           <div className={styles.null}>No results</div>
         ) : (
