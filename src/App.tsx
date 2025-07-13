@@ -4,11 +4,13 @@ import Search from './components/Search/Search';
 import Result from './components/Result/Result';
 import { getAllCharacters, searchCharacters } from './utils/api';
 import type { Character } from './utils/interface';
+import Button from './components/Button/Button';
 
 interface State {
   characters: Character[];
   loading: boolean;
   error: string | null;
+  throwError: boolean;
 }
 
 class App extends Component {
@@ -16,6 +18,7 @@ class App extends Component {
     characters: [],
     loading: true,
     error: null,
+    throwError: false,
   };
 
   query = localStorage.getItem('search') || '';
@@ -61,12 +64,22 @@ class App extends Component {
   };
 
   render() {
-    const { characters, loading, error } = this.state;
+    const { characters, loading, error, throwError } = this.state;
+
+    if (throwError) {
+      throw new Error('Test render error.');
+    }
 
     return (
       <>
         <Search search={this.handleSearch} />
         <Result result={characters} loading={loading} error={error} />
+        <Button
+          color="error"
+          onClick={() => this.setState({ throwError: true })}
+        >
+          Throw Error
+        </Button>
       </>
     );
   }
