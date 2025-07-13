@@ -12,7 +12,7 @@ interface IProps {
 
 class Search extends Component<IProps, IState> {
   state: IState = {
-    query: localStorage.getItem('search') || '',
+    query: localStorage.getItem('search_3iq6e') || '',
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ class Search extends Component<IProps, IState> {
 
   handleSearch = () => {
     const { query } = this.state;
-    localStorage.setItem('search', query);
+    localStorage.setItem('search_3iq6e', query);
     this.props.search(query);
   };
 

@@ -1,7 +1,9 @@
 import type { Character } from './interface';
 
-export const getAllCharacters = async (): Promise<Character[]> => {
-  const res = await fetch('https://zelda.fanapis.com/api/characters?limit=30');
+export const getAllCharacters = async (
+  url: string = 'https://zelda.fanapis.com/api/characters?limit=50'
+): Promise<Character[]> => {
+  const res = await fetch(url);
   if (!res.ok)
     throw new Error(`HTTP error! Failed to fetch data. Status: ${res.status}`);
   const data = await res.json();
