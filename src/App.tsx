@@ -27,14 +27,14 @@ class App extends Component {
     if (this.query) {
       this.handleSearch(this.query);
     } else {
-      this.handleGetAll();
+      this.handleGetAllCharacters();
     }
   }
 
-  handleGetAll = async () => {
+  handleApiCall = async (apiCall: () => Promise<Character[]>) => {
     this.setState({ loading: true });
     try {
-      const characters = await getAllCharacters();
+      const characters = await apiCall();
       this.setState({ characters });
     } catch (error) {
       if (error instanceof Error) {
@@ -47,20 +47,12 @@ class App extends Component {
     }
   };
 
+  handleGetAllCharacters = async () => {
+    await this.handleApiCall(() => getAllCharacters());
+  };
+
   handleSearch = async (value: string) => {
-    this.setState({ loading: true });
-    try {
-      const characters = await searchCharacters(value);
-      this.setState({ characters });
-    } catch (error) {
-      if (error instanceof Error) {
-        this.setState({ error: error.message });
-      } else {
-        this.setState({ error: 'An unexpected error occurred.' });
-      }
-    } finally {
-      this.setState({ loading: false });
-    }
+    await this.handleApiCall(() => searchCharacters(value));
   };
 
   render() {
