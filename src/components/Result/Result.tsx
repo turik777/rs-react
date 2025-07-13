@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import type { Character } from '../../utils/interface';
 import styles from './result.module.scss';
+import Loader from '../Loader/Loader';
 
 interface IProps {
   result: Character[];
@@ -9,11 +10,13 @@ interface IProps {
 
 class Result extends Component<IProps> {
   render() {
-    const { result } = this.props;
+    const { loading, result } = this.props;
 
     return (
       <div className={styles.result}>
-        {result.length === 0 ? (
+        {loading ? (
+          <Loader />
+        ) : result.length === 0 ? (
           <div className={styles.null}>No results</div>
         ) : (
           <table className={styles.table}>
