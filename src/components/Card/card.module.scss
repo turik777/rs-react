@@ -1,0 +1,55 @@
+.card {
+  max-width: 250px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.image {
+  width: 250px;
+  border-radius: 20px;
+}
+
+.name {
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.alive,
+.dead,
+.unknown {
+  margin-left: 5px;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.alive {
+  background-color: #0f9d58;
+}
+
+.dead {
+  background-color: #db4437;
+}
+
+.unknown {
+  background-color: #f4b400;
+}
