@@ -1,15 +1,7 @@
 .result {
   border-radius: 20px;
   padding: 20px;
-  box-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.16),
-    0 3px 6px rgba(0, 0, 0, 0.23);
   margin: 30px 0;
-}
-
-.table {
-  border-collapse: collapse;
-  width: 100%;
 }
 
 .header-cell,
@@ -25,10 +17,6 @@
 
 .row:nth-child(2n) {
   background-color: #eeeeee;
-}
-
-.name {
-  width: 150px;
 }
 
 .null {
