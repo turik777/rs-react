@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import type { Character } from '../../utils/interface';
+import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 
 class Card extends Component<Character> {

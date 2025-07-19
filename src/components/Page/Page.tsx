@@ -2,7 +2,7 @@ import { Component } from 'react';
 import Search from '../Search/Search';
 import Result from '../Result/Result';
 import { getAllCharacters, searchCharacters } from '../../utils/api';
-import type { Character } from '../../utils/interface';
+import type { Character } from '../../interface/interface';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
 

@@ -1,4 +1,4 @@
-import type { Character } from './interface';
+import type { Character } from '../interface/interface';
 
 const API_URL = 'https://rickandmortyapi.com/api/character';
 

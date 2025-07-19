@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import type { Character } from '../../utils/interface';
+import type { Character } from '../../interface/interface';
 import styles from './result.module.scss';
 import Loader from '../Loader/Loader';
 import CardList from '../CardList/CardList';
