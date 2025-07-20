@@ -1,6 +1,6 @@
 import type { Character } from '../interface/interface';
 
-const API_URL = 'https://rickandmortyapi.com/api/character';
+export const API_URL = 'https://rickandmortyapi.com/api/character';
 
 async function fetchCharacters(url: string): Promise<Character[]> {
   const res = await fetch(url);

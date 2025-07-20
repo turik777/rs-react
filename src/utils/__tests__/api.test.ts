@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { getAllCharacters, searchCharacters } from '../api';
+import { API_URL, getAllCharacters, searchCharacters } from '../api';
 import { http } from 'msw';
 import { cleanup } from '@testing-library/react';
 import { server } from '../__mocks__/node';
@@ -21,7 +21,7 @@ describe('API functions', () => {
 
   it('throws error when fetch fails', async () => {
     server.use(
-      http.get('https://rickandmortyapi.com/api/character', () => {
+      http.get(API_URL, () => {
         return new Response(null, { status: 500 });
       })
     );

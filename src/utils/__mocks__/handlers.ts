@@ -1,5 +1,6 @@
 import { http } from 'msw';
 import { filterByName } from '../helpers/filterByName';
+import { API_URL } from '../api';
 
 export const mockCharacters = [
   {
@@ -29,7 +30,7 @@ export const mockCharacters = [
 ];
 
 export const handlers = [
-  http.get('https://rickandmortyapi.com/api/character', ({ request }) => {
+  http.get(API_URL, ({ request }) => {
     const name = new URL(request.url).searchParams.get('name');
     const filtered = name ? filterByName(name) : mockCharacters;
     return Response.json({ results: filtered });
