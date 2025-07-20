@@ -21,4 +21,22 @@ describe('Card', () => {
     expect(statusElement).not.toHaveClass(styles.dead);
     expect(statusElement).not.toHaveClass(styles.unknown);
   });
+
+  it('apply alive class when status is Alive', () => {
+    render(<Card {...mockCharacters[0]} status="Alive" />);
+    const statusElement = screen.getByText(/alive/i);
+    expect(statusElement.className).toMatch(/alive/);
+  });
+
+  it('apply dead class when status is Dead', () => {
+    render(<Card {...mockCharacters[0]} status="Dead" />);
+    const statusElement = screen.getByText(/dead/i);
+    expect(statusElement.className).toMatch(/dead/);
+  });
+
+  it('apply unknown class when status is unknown', () => {
+    render(<Card {...mockCharacters[0]} status="unknown" />);
+    const statusElement = screen.getByText(/unknown/i);
+    expect(statusElement.className).toMatch(/unknown/);
+  });
 });
