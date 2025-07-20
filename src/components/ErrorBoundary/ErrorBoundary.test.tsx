@@ -5,12 +5,12 @@ import ErrorBoundary from './ErrorBoundary';
 
 describe('ErrorBoundary', () => {
   it('renders fallback UI when there is an error', () => {
-    const Error = () => {
-      throw Error();
+    const ThrowError = () => {
+      throw Error('Error test message');
     };
     render(
       <ErrorBoundary>
-        <Error />
+        <ThrowError />
       </ErrorBoundary>
     );
     expect(screen.getByText('Something went wrong.')).toBeInTheDocument();
