@@ -35,6 +35,16 @@ describe('Page', () => {
     });
   });
 
+  it('show error message if error is not instance of Error', async () => {
+    vi.spyOn(api, 'getAllCharacters').mockRejectedValue('error');
+    render(<Page />);
+    await waitFor(() => {
+      expect(
+        screen.getByText('An unexpected error occurred.')
+      ).toBeInTheDocument();
+    });
+  });
+
   it('throw error when throw button is clicked', () => {
     render(<Page />);
     const throwButton = screen.getByRole('button', { name: /Throw Error/i });
