@@ -15,4 +15,13 @@ describe('ErrorBoundary', () => {
     );
     expect(screen.getByText('Something went wrong.')).toBeInTheDocument();
   });
+
+  it('renders element when no error is thrown', () => {
+    render(
+      <ErrorBoundary>
+        <div data-testid="test element">Test Element</div>
+      </ErrorBoundary>
+    );
+    expect(screen.getByTestId('test element')).toBeInTheDocument();
+  });
 });
