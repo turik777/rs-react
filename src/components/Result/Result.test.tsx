@@ -2,26 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import Result from './Result';
-import type { Character } from '../../interface/interface';
-
-const mockCharacters: Character[] = [
-  {
-    id: '1',
-    name: 'Rick Sanchez',
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    species: 'Human',
-    gender: 'Male',
-    status: 'Alive',
-  },
-  {
-    id: '2',
-    name: 'Morty Smith',
-    image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-    species: 'Human',
-    gender: 'Male',
-    status: 'Alive',
-  },
-];
+import { mockCharacters } from '../../utils/__mocks__/handlers';
 
 describe('Result Component', () => {
   it('renders without crashing', () => {
