@@ -1,19 +1,23 @@
-import type { Character } from './interface';
+import type { Character } from '../interface/interface';
 
-export const getAllCharacters = async (
-  url: string = 'https://zelda.fanapis.com/api/characters?limit=50'
-): Promise<Character[]> => {
+export const API_URL = 'https://rickandmortyapi.com/api/character';
+
+async function fetchCharacters(url: string): Promise<Character[]> {
   const res = await fetch(url);
-  if (!res.ok)
+  if (!res.ok) {
     throw new Error(`HTTP error! Failed to fetch data. Status: ${res.status}`);
+  }
   const data = await res.json();
-  return data.data;
+  return data.results;
+}
+
+export const getAllCharacters = (
+  url: string = API_URL
+): Promise<Character[]> => {
+  return fetchCharacters(url);
 };
 
-export async function searchCharacters(query: string) {
-  const allCharacters = await getAllCharacters();
-  const filteredCharacters = allCharacters.filter((character) =>
-    character.name.toLowerCase().includes(query.trim().toLowerCase())
-  );
-  return filteredCharacters;
-}
+export const searchCharacters = (query: string): Promise<Character[]> => {
+  const url = `${API_URL}/?name=${query}`;
+  return fetchCharacters(url);
+};
