@@ -17,7 +17,25 @@ export const getAllCharacters = (
   return fetchCharacters(url);
 };
 
-export const searchCharacters = (query: string): Promise<Character[]> => {
-  const url = `${API_URL}/?name=${query}`;
+export const searchCharacters = (
+  query: string,
+  page: number = 1
+): Promise<Character[]> => {
+  const url = `${API_URL}/?name=${query}&page=${page}`;
   return fetchCharacters(url);
 };
+
+export async function getTotalPages(query?: string): Promise<number> {
+  let res = await fetch(API_URL);
+  if (query) {
+    res = await fetch(`${API_URL}/?name=${query}`);
+  }
+  if (!res.ok) {
+    throw new Error(`HTTP error! Status: ${res.status}`);
+  }
+  const data = await res.json();
+  if (!data.info) {
+    return 1;
+  }
+  return data.info.pages;
+}
