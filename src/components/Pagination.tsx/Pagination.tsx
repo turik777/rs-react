@@ -13,6 +13,13 @@ const Pagination: FC<IProps> = ({ page, pageChange, totalPages }) => {
     <div className={styles.pagination}>
       <Button
         color="primary"
+        onClick={() => pageChange(1)}
+        disabled={page <= 1}
+      >
+        {'<<'}
+      </Button>
+      <Button
+        color="primary"
         onClick={() => pageChange(page - 1)}
         disabled={page <= 1}
       >
@@ -25,6 +32,13 @@ const Pagination: FC<IProps> = ({ page, pageChange, totalPages }) => {
         disabled={page >= totalPages}
       >
         {'>'}
+      </Button>
+      <Button
+        color="primary"
+        onClick={() => pageChange(totalPages)}
+        disabled={page >= totalPages}
+      >
+        {'>>'}
       </Button>
     </div>
   );
