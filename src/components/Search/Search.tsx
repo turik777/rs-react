@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import styles from './search.module.scss';
 import Button from '../Button/Button';
+import { NavLink } from 'react-router';
 
 interface IProps {
   search: (query: string) => void;
@@ -31,6 +32,9 @@ const Search: FC<IProps> = ({ search }) => {
       <Button color="primary" onClick={handleSearch}>
         Search
       </Button>
+      <NavLink to="/about">
+        <Button color="primary">About</Button>
+      </NavLink>
     </div>
   );
 };
