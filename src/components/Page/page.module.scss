@@ -4,6 +4,23 @@
   align-items: center;
 }
 
+.result-wrapper {
+  margin: 25px 0;
+  width: 100%;
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.pagination-wrapper {
+  height: 64px;
+}
+
+.info {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
 .main {
   display: flex;
 }

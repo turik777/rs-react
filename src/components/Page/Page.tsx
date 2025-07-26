@@ -10,15 +10,17 @@ import type { Character } from '../../interface/interface';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
 import Pagination from '../Pagination.tsx/Pagination';
+import { Outlet, useSearchParams } from 'react-router';
 
 const Page: FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [throwError, setThrowError] = useState(false);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const page = Number(searchParams.get('page')) || 1;
   const query = localStorage.getItem('search_3iq6e') || '';
 
   useEffect(() => {
@@ -47,13 +49,19 @@ const Page: FC = () => {
     }
   };
 
-  const handleSearch = async (value: string) => {
-    setPage(1);
-    await fetchCharacters(() => searchCharacters(value));
+  const handleSearch = async () => {
+    const id = searchParams.get('details');
+    if (id) {
+      setSearchParams({ page: '1', details: `${id}` });
+    } else {
+      setSearchParams({ page: '1' });
+    }
   };
 
   const handlePageChange = async (page: number) => {
-    setPage(page);
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${page}`);
+    setSearchParams(params);
   };
 
   if (throwError) {
@@ -63,14 +71,26 @@ const Page: FC = () => {
   return (
     <div className={styles.page}>
       <Search search={handleSearch} />
-      {!loading && characters.length > 0 && (
-        <Pagination
-          page={page}
-          pageChange={handlePageChange}
-          totalPages={totalPages}
-        />
-      )}
-      <Result result={characters} loading={loading} error={error} />
+      <div className={styles['pagination-wrapper']}>
+        {!loading && characters.length > 0 && (
+          <Pagination
+            page={page}
+            pageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        )}
+      </div>
+      <div className={styles.info}>
+        <div className={styles['result-wrapper']}>
+          <Result
+            result={characters}
+            loading={loading}
+            error={error}
+            page={page}
+          />
+        </div>
+        <Outlet />
+      </div>
       <Button color="error" onClick={() => setThrowError(true)}>
         Throw Error
       </Button>

@@ -8,9 +8,10 @@ interface IProps {
   result: Character[];
   loading: boolean;
   error: string | null;
+  page: number;
 }
 
-const Result: FC<IProps> = ({ loading, result, error }) => {
+const Result: FC<IProps> = ({ loading, result, error, page }) => {
   return (
     <div className={styles.result}>
       {loading ? (
@@ -20,7 +21,9 @@ const Result: FC<IProps> = ({ loading, result, error }) => {
       ) : result.length === 0 ? (
         <div className={styles.null}>No results</div>
       ) : (
-        <CardList result={result} />
+        <div className={styles.info}>
+          <CardList result={result} page={page} />
+        </div>
       )}
     </div>
   );
