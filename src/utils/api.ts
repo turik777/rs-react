@@ -4,6 +4,9 @@ export const API_URL = 'https://rickandmortyapi.com/api/character';
 
 async function fetchCharacters(url: string): Promise<Character[]> {
   const res = await fetch(url);
+  if (res.status === 404) {
+    return [];
+  }
   if (!res.ok) {
     throw new Error(`HTTP error! Failed to fetch data. Status: ${res.status}`);
   }
@@ -39,3 +42,12 @@ export async function getTotalPages(query?: string): Promise<number> {
   }
   return data.info.pages;
 }
+
+export const getCharacterById = async (id: string): Promise<Character> => {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch character with id ${id}`);
+  }
+  const data = await res.json();
+  return data;
+};
