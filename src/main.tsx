@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { BrowserRouter, Route, Routes } from 'react-router';
+import About from './components/About/About.tsx';
 import NotFound from './components/NotFound/NotFound.tsx';
 
 const container = document.getElementById('root');
@@ -14,6 +15,7 @@ createRoot(container).render(
     <StrictMode>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="about" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </StrictMode>
