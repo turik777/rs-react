@@ -2,33 +2,50 @@ import type { FC } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 
-const Card: FC<Character> = ({ image, name, species, gender, status }) => {
+interface IProps extends Character {
+  size?: 'medium' | 'small';
+}
+
+const Card: FC<IProps> = ({
+  image,
+  name,
+  species,
+  gender,
+  status,
+  size = 'medium',
+}) => {
   return (
-    <div className={styles.card}>
-      <img className={styles.image} src={image} alt="" />
+    <div className={`${styles.card} ${styles[size]}`}>
+      <img className={`${styles.image} ${styles[size]}`} src={image} alt="" />
       <p className={styles.name}>{name}</p>
-      <div className={styles.info}>
-        <span>Species: </span>
-        <span>{species}</span>
-      </div>
-      <div className={styles.info}>
-        <span>Gender: </span>
-        <span>{gender}</span>
-      </div>
-      <div className={styles.info}>
-        <span>Status: </span>
-        <span
-          className={
-            status === 'Alive'
-              ? styles.alive
-              : status === 'Dead'
-                ? styles.dead
-                : styles.unknown
-          }
-        >
-          {` ${status.toUpperCase()}`}
-        </span>
-      </div>
+      {species && (
+        <div className={styles.info}>
+          <span>Species: </span>
+          <span>{species}</span>
+        </div>
+      )}
+      {gender && (
+        <div className={styles.info}>
+          <span>Gender: </span>
+          <span>{gender}</span>
+        </div>
+      )}
+      {status && (
+        <div className={styles.info}>
+          <span>Status: </span>
+          <span
+            className={
+              status === 'Alive'
+                ? styles.alive
+                : status === 'Dead'
+                  ? styles.dead
+                  : styles.unknown
+            }
+          >
+            {` ${status?.toUpperCase()}`}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
