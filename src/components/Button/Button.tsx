@@ -8,9 +8,13 @@ interface IProps {
   disabled?: boolean;
 }
 
-const Button: FC<IProps> = ({ children, color, onClick }) => {
+const Button: FC<IProps> = ({ children, color, onClick, disabled }) => {
   return (
-    <button className={`${styles.button} ${styles[color]}`} onClick={onClick}>
+    <button
+      className={`${styles.button} ${styles[color]}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
