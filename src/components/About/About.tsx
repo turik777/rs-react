@@ -19,7 +19,11 @@ const About: FC = () => {
       </span>
       <span>{year}</span>
       <span>
-        <Link className={styles.link} to="https://rs.school/" target="_blank">
+        <Link
+          className={styles.link}
+          to="https://rs.school/courses/reactjs"
+          target="_blank"
+        >
           <span>RS School</span>
         </Link>
       </span>
