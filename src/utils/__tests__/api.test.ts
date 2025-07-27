@@ -82,9 +82,10 @@ describe('API functions', () => {
   });
 
   it('should return character by ID', async () => {
-    mockFetchResponse(mockCharacters[0]);
+    const [character] = mockCharacters;
+    mockFetchResponse(character);
     const data = await getCharacterById('1');
-    expect(data).toEqual(mockCharacters[0]);
+    expect(data).toEqual(character);
     expect(fetch).toHaveBeenCalledWith(`${API_URL}/1`);
   });
 });

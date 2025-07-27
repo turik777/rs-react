@@ -8,14 +8,16 @@ import { mockCharacters } from '../../utils/__mocks__/handlers';
 afterEach(() => cleanup());
 
 describe('Card', () => {
+  const [character] = mockCharacters;
+
   it('renders the character image with correct src', () => {
-    render(<Card {...mockCharacters[0]} />);
+    render(<Card {...character} />);
     const img = screen.getByAltText('');
-    expect(img).toHaveAttribute('src', mockCharacters[0].image);
+    expect(img).toHaveAttribute('src', character.image);
   });
 
   it('should apply correct style', () => {
-    render(<Card {...mockCharacters[0]} />);
+    render(<Card {...character} />);
     const statusElement = screen.getByText('ALIVE');
     expect(statusElement).toHaveClass(styles.alive);
     expect(statusElement).not.toHaveClass(styles.dead);
@@ -23,19 +25,19 @@ describe('Card', () => {
   });
 
   it('apply alive class when status is Alive', () => {
-    render(<Card {...mockCharacters[0]} status="Alive" />);
+    render(<Card {...character} status="Alive" />);
     const statusElement = screen.getByText(/alive/i);
     expect(statusElement.className).toMatch(/alive/);
   });
 
   it('apply dead class when status is Dead', () => {
-    render(<Card {...mockCharacters[0]} status="Dead" />);
+    render(<Card {...character} status="Dead" />);
     const statusElement = screen.getByText(/dead/i);
     expect(statusElement.className).toMatch(/dead/);
   });
 
   it('apply unknown class when status is unknown', () => {
-    render(<Card {...mockCharacters[0]} status="unknown" />);
+    render(<Card {...character} status="unknown" />);
     const statusElement = screen.getByText(/unknown/i);
     expect(statusElement.className).toMatch(/unknown/);
   });
