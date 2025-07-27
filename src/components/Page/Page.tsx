@@ -12,6 +12,7 @@ import styles from './page.module.scss';
 import Pagination from '../Pagination.tsx/Pagination';
 import { Outlet, useSearchParams } from 'react-router';
 import useSearchQuery from '../../utils/hooks/useSearchQuery';
+import NotFound from '../NotFound/NotFound';
 
 const Page: FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -73,8 +74,16 @@ const Page: FC = () => {
     setSearchParams(params);
   };
 
+  const hasInvalidParam = Array.from(searchParams.keys()).some(
+    (param) => !['page', 'details'].includes(param)
+  );
+
   if (throwError) {
     throw new Error('Test render error.');
+  }
+
+  if (hasInvalidParam) {
+    return <NotFound />;
   }
 
   return (
