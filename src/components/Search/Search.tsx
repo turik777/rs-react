@@ -1,23 +1,22 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
 import styles from './search.module.scss';
 import Button from '../Button/Button';
 import { NavLink } from 'react-router';
+import useStoredQuery from '../../utils/hooks/useSearchQuery';
 
 interface IProps {
   search: (query: string) => void;
 }
 
 const Search: FC<IProps> = ({ search }) => {
-  const [query, setQuery] = useState(
-    () => localStorage.getItem('search_3iq6e') || ''
-  );
+  const [query, setQuery, saveQuery] = useStoredQuery('search_3iq6e');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
   const handleSearch = () => {
-    localStorage.setItem('search_3iq6e', query);
+    saveQuery();
     search(query);
   };
 
