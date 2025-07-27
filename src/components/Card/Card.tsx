@@ -18,6 +18,17 @@ const Card: FC<IProps> = ({
   hover = 'none',
   onClick,
 }) => {
+  function getStatusStyle(status: string) {
+    switch (status) {
+      case 'Alive':
+        return styles.alive;
+      case 'Dead':
+        return styles.dead;
+      default:
+        return styles.unknown;
+    }
+  }
+
   return (
     <div
       className={`${styles.card} ${styles[size]} ${styles[hover]}`}
@@ -41,16 +52,8 @@ const Card: FC<IProps> = ({
         <div className={styles.info}>
           <span>Status: </span>
           <span
-            className={
-              status === 'Alive'
-                ? styles.alive
-                : status === 'Dead'
-                  ? styles.dead
-                  : styles.unknown
-            }
-          >
-            {` ${status?.toUpperCase()}`}
-          </span>
+            className={getStatusStyle(status)}
+          >{` ${status?.toUpperCase()}`}</span>
         </div>
       )}
     </div>
