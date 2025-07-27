@@ -3,27 +3,37 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import Result from './Result';
 import { mockCharacters } from '../../utils/__mocks__/handlers';
+import { BrowserRouter } from 'react-router';
+
+const renderWithRouter = (ui: React.ReactElement) =>
+  render(<BrowserRouter>{ui}</BrowserRouter>);
 
 describe('Result Component', () => {
   it('renders without crashing', () => {
-    const { container } = render(
-      <Result loading={true} result={[]} error={null} />
+    const { container } = renderWithRouter(
+      <Result loading={true} result={[]} error={null} page={1} />
     );
     expect(container).toBeInTheDocument();
   });
 
   it('renders error state', () => {
-    render(<Result loading={false} result={[]} error={'Test error'} />);
+    renderWithRouter(
+      <Result loading={false} result={[]} error={'Test error'} page={1} />
+    );
     expect(screen.getByText('Test error')).toBeInTheDocument();
   });
 
   it('renders empty state', () => {
-    render(<Result loading={false} result={[]} error={null} />);
+    renderWithRouter(
+      <Result loading={false} result={[]} error={null} page={1} />
+    );
     expect(screen.getByText('No results')).toBeInTheDocument();
   });
 
   it('renders CardList', () => {
-    render(<Result loading={false} result={mockCharacters} error={null} />);
+    renderWithRouter(
+      <Result loading={false} result={mockCharacters} error={null} page={1} />
+    );
     expect(screen.getByText('Rick Sanchez')).toBeInTheDocument();
     expect(screen.getByText('Morty Smith')).toBeInTheDocument();
   });
