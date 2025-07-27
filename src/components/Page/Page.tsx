@@ -1,82 +1,125 @@
-import { Component } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import Search from '../Search/Search';
 import Result from '../Result/Result';
-import { getAllCharacters, searchCharacters } from '../../utils/api';
+import {
+  getAllCharacters,
+  getTotalPages,
+  searchCharacters,
+} from '../../utils/api';
 import type { Character } from '../../interface/interface';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
+import Pagination from '../Pagination.tsx/Pagination';
+import { Outlet, useSearchParams } from 'react-router';
+import useSearchQuery from '../../utils/hooks/useSearchQuery';
+import NotFound from '../NotFound/NotFound';
 
-interface State {
-  characters: Character[];
-  loading: boolean;
-  error: string | null;
-  throwError: boolean;
-}
+const Page: FC = () => {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [throwError, setThrowError] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useSearchQuery('search_3iq6e');
 
-class Page extends Component {
-  state: State = {
-    characters: [],
-    loading: true,
-    error: null,
-    throwError: false,
-  };
+  const detailId = searchParams.get('details');
+  const page = Number(searchParams.get('page')) || 1;
 
-  query = localStorage.getItem('search_3iq6e') || '';
+  useEffect(() => {
+    fetchCharacters(() => getAllCharacters());
+  }, []);
 
-  componentDidMount() {
-    if (this.query) {
-      this.handleSearch(this.query);
-    } else {
-      this.handleGetAllCharacters();
-    }
-  }
+  useEffect(() => {
+    fetchCharacters(() => searchCharacters(query, page));
+    getTotalPages(query).then((value) => setTotalPages(value));
+  }, [query, page]);
 
-  handleApiCall = async (apiCall: () => Promise<Character[]>) => {
-    this.setState({ loading: true });
+  const fetchCharacters = async (apiCall: () => Promise<Character[]>) => {
+    setLoading(true);
+    setError(null);
     try {
-      const characters = await apiCall();
-      this.setState({ characters });
+      const data = await apiCall();
+      setCharacters(data);
     } catch (error) {
       if (error instanceof Error) {
-        this.setState({ error: error.message });
+        setError(error.message);
       } else {
-        this.setState({ error: 'An unexpected error occurred.' });
+        setError('An unexpected error occurred.');
       }
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  handleGetAllCharacters = async () => {
-    await this.handleApiCall(() => getAllCharacters());
-  };
-
-  handleSearch = async (value: string) => {
-    await this.handleApiCall(() => searchCharacters(value));
-  };
-
-  render() {
-    const { characters, loading, error, throwError } = this.state;
-
-    if (throwError) {
-      throw new Error('Test render error.');
+  const handleSearch = async (query: string) => {
+    setQuery(query);
+    const id = searchParams.get('details');
+    if (id) {
+      setSearchParams({ page: '1', details: `${id}` });
+    } else {
+      setSearchParams({ page: '1' });
     }
+  };
 
-    return (
-      <>
-        <div className={styles.page}>
-          <Search search={this.handleSearch} />
-          <Result result={characters} loading={loading} error={error} />
-          <Button
-            color="error"
-            onClick={() => this.setState({ throwError: true })}
-          >
-            Throw Error
-          </Button>
-        </div>
-      </>
-    );
+  const handlePageChange = async (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${page}`);
+    setSearchParams(params);
+  };
+
+  const handleCloseDetails = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('details');
+    setSearchParams(params);
+  };
+
+  const hasInvalidParam = Array.from(searchParams.keys()).some(
+    (param) => !['page', 'details'].includes(param)
+  );
+
+  if (throwError) {
+    throw new Error('Test render error.');
   }
-}
+
+  if (hasInvalidParam) {
+    return <NotFound />;
+  }
+
+  return (
+    <div
+      className={styles.page}
+      onClick={() => detailId && handleCloseDetails()}
+    >
+      <Search search={handleSearch} />
+      <div
+        className={styles['pagination-wrapper']}
+        onClick={(event) => event.stopPropagation()}
+      >
+        {!loading && characters.length > 0 && (
+          <Pagination
+            page={page}
+            pageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        )}
+      </div>
+      <div className={styles.info}>
+        <div className={styles['result-wrapper']}>
+          <Result
+            result={characters}
+            loading={loading}
+            error={error}
+            page={page}
+          />
+        </div>
+        <Outlet />
+      </div>
+      <Button color="error" onClick={() => setThrowError(true)}>
+        Throw Error
+      </Button>
+    </div>
+  );
+};
 
 export default Page;

@@ -1,30 +1,44 @@
-import { Component } from 'react';
+import type { FC } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card-list.module.scss';
 import Card from '../Card/Card';
+import { useSearchParams, useNavigate } from 'react-router';
 
 interface IProps {
   result: Character[];
+  page: number;
 }
 
-class CardList extends Component<IProps> {
-  render() {
-    const { result } = this.props;
-    return (
-      <div className={styles.list}>
-        {result.map(({ id, name, image, species, gender, status }) => (
+const CardList: FC<IProps> = ({ result, page }) => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const handleClick = (id: string | undefined) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${page}`);
+    params.set('details', `${id}`);
+    navigate({ pathname: '/', search: `${params}` });
+  };
+
+  return (
+    <div className={styles.list}>
+      {result.map(({ id, name, image }) => (
+        <div className={styles.link} key={id}>
           <Card
-            key={id}
+            data-testid="card"
             name={name}
             image={image}
-            species={species}
-            gender={gender}
-            status={status}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleClick(id);
+            }}
+            size="small"
+            hover="hover"
           />
-        ))}
-      </div>
-    );
-  }
-}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default CardList;
