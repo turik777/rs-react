@@ -20,10 +20,10 @@ const Page: FC = () => {
   const [throwError, setThrowError] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const detailId = searchParams.get('details');
+  const [query, setQuery] = useSearchQuery('search_3iq6e');
 
+  const detailId = searchParams.get('details');
   const page = Number(searchParams.get('page')) || 1;
-  const [query] = useSearchQuery('search_3iq6e');
 
   useEffect(() => {
     fetchCharacters(() => getAllCharacters());
@@ -51,7 +51,8 @@ const Page: FC = () => {
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (query: string) => {
+    setQuery(query);
     const id = searchParams.get('details');
     if (id) {
       setSearchParams({ page: '1', details: `${id}` });
