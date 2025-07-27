@@ -21,7 +21,7 @@ const Search: FC<IProps> = ({ search }) => {
   };
 
   return (
-    <div className={styles.search}>
+    <div className={styles.search} onClick={(event) => event.stopPropagation()}>
       <input
         className={styles['search-bar']}
         type="text"

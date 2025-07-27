@@ -20,6 +20,7 @@ const Page: FC = () => {
   const [throwError, setThrowError] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const detailId = searchParams.get('details');
 
   const page = Number(searchParams.get('page')) || 1;
   const [query] = useSearchQuery('search_3iq6e');
@@ -65,14 +66,26 @@ const Page: FC = () => {
     setSearchParams(params);
   };
 
+  const handleCloseDetails = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('details');
+    setSearchParams(params);
+  };
+
   if (throwError) {
     throw new Error('Test render error.');
   }
 
   return (
-    <div className={styles.page}>
+    <div
+      className={styles.page}
+      onClick={() => detailId && handleCloseDetails()}
+    >
       <Search search={handleSearch} />
-      <div className={styles['pagination-wrapper']}>
+      <div
+        className={styles['pagination-wrapper']}
+        onClick={(event) => event.stopPropagation()}
+      >
         {!loading && characters.length > 0 && (
           <Pagination
             page={page}

@@ -23,8 +23,18 @@ const CardList: FC<IProps> = ({ result, page }) => {
   return (
     <div className={styles.list}>
       {result.map(({ id, name, image }) => (
-        <div className={styles.link} key={id} onClick={() => handleClick(id)}>
-          <Card data-testid="card" name={name} image={image} size="small" />
+        <div className={styles.link} key={id}>
+          <Card
+            data-testid="card"
+            name={name}
+            image={image}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleClick(id);
+            }}
+            size="small"
+            hover="hover"
+          />
         </div>
       ))}
     </div>

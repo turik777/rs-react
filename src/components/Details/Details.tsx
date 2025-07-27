@@ -41,7 +41,10 @@ const Details: FC = () => {
   if (!id) return null;
 
   return (
-    <div className={styles.details}>
+    <div
+      className={styles.details}
+      onClick={(event) => event.stopPropagation()}
+    >
       {loading ? (
         <Loader />
       ) : error ? (

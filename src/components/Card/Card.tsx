@@ -1,9 +1,11 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 
 interface IProps extends Character {
   size?: 'medium' | 'small';
+  hover?: 'hover' | 'none';
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
 const Card: FC<IProps> = ({
@@ -13,9 +15,14 @@ const Card: FC<IProps> = ({
   gender,
   status,
   size = 'medium',
+  hover = 'none',
+  onClick,
 }) => {
   return (
-    <div className={`${styles.card} ${styles[size]}`}>
+    <div
+      className={`${styles.card} ${styles[size]} ${styles[hover]}`}
+      onClick={onClick}
+    >
       <img className={`${styles.image} ${styles[size]}`} src={image} alt="" />
       <p className={styles.name}>{name}</p>
       {species && (
