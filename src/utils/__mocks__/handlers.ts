@@ -35,4 +35,11 @@ export const handlers = [
     const filtered = name ? filterByName(name) : mockCharacters;
     return Response.json({ results: filtered });
   }),
+
+  http.get(`${API_URL}/:id`, ({ params }) => {
+    const character = mockCharacters.find((char) => char.id === params.id);
+    if (character) {
+      return Response.json(character);
+    }
+  }),
 ];
