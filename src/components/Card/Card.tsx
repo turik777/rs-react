@@ -70,12 +70,15 @@ const Card: FC<IProps> = ({
       {checkbox && (
         <div>
           <input
+            className={styles.checkbox}
             type="checkbox"
             id={`favorite-${id}`}
             checked={isSelected}
             onChange={() => id && toggleSelect(id)}
           />
-          <label htmlFor={`favorite-${id}`}>Add to favorite</label>
+          <label className={styles.checkbox} htmlFor={`favorite-${id}`}>
+            Add to favorite
+          </label>
         </div>
       )}
     </div>

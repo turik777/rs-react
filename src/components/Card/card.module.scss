@@ -65,6 +65,13 @@
   }
 }
 
+.checkbox {
+  &:hover {
+    cursor: pointer;
+    color: #aaaaaa;
+  }
+}
+
 .alive,
 .dead,
 .unknown {
