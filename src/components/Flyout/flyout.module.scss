@@ -1,0 +1,19 @@
+.flyout {
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: #ffffff;
+  border-radius: 50px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+}

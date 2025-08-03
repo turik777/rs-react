@@ -13,7 +13,13 @@ const CardList: FC<IProps> = ({ result, page }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const handleClick = (id: string | undefined) => {
+  const handleClick = (event: React.MouseEvent, id: string | undefined) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.closest('input[type="checkbox"]') || target.closest('label')) {
+      return;
+    }
+
     const params = new URLSearchParams(searchParams);
     params.set('page', `${page}`);
     params.set('details', `${id}`);
@@ -26,14 +32,16 @@ const CardList: FC<IProps> = ({ result, page }) => {
         <div className={styles.link} key={id}>
           <Card
             data-testid="card"
+            id={id}
             name={name}
             image={image}
             onClick={(event) => {
               event.stopPropagation();
-              handleClick(id);
+              handleClick(event, id);
             }}
             size="small"
             hover="hover"
+            checkbox={true}
           />
         </div>
       ))}

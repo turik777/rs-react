@@ -1,14 +1,17 @@
 import type { FC, MouseEvent } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
+import { useCharStore } from '../../store/useStore';
 
 interface IProps extends Character {
   size?: 'medium' | 'small';
   hover?: 'hover' | 'none';
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+  checkbox?: boolean;
 }
 
 const Card: FC<IProps> = ({
+  id,
   image,
   name,
   species,
@@ -17,7 +20,13 @@ const Card: FC<IProps> = ({
   size = 'medium',
   hover = 'none',
   onClick,
+  checkbox = false,
 }) => {
+  const isSelected = useCharStore((state) =>
+    id ? state.selectedCharIds.includes(id) : false
+  );
+  const toggleSelect = useCharStore((state) => state.toggle);
+
   function getStatusStyle(status: string) {
     switch (status) {
       case 'Alive':
@@ -54,6 +63,17 @@ const Card: FC<IProps> = ({
           <span
             className={getStatusStyle(status)}
           >{` ${status?.toUpperCase()}`}</span>
+        </div>
+      )}
+      {checkbox && (
+        <div>
+          <input
+            type="checkbox"
+            id={`favorite-${id}`}
+            checked={isSelected}
+            onChange={() => id && toggleSelect(id)}
+          />
+          <label htmlFor={`favorite-${id}`}>Add to favorite</label>
         </div>
       )}
     </div>
