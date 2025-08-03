@@ -4,9 +4,14 @@ import '@testing-library/jest-dom/vitest';
 import Result from './Result';
 import { mockCharacters } from '../../utils/__mocks__/handlers';
 import { BrowserRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 describe('Result Component', () => {
   it('renders without crashing', () => {

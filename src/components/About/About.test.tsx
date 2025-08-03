@@ -3,9 +3,14 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import About from './About';
 import { BrowserRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 describe('About', () => {
   it('renders about page element', () => {

@@ -3,12 +3,21 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import Details from './Details';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 const renderWithMemory = (ui: React.ReactElement, entry: string) =>
-  render(<MemoryRouter initialEntries={[entry]}>{ui}</MemoryRouter>);
+  render(
+    <ThemeProvider>
+      <MemoryRouter initialEntries={[entry]}>{ui}</MemoryRouter>
+    </ThemeProvider>
+  );
 
 describe('Details Component', () => {
   it('should not render when no id is present', () => {
