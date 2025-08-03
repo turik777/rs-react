@@ -20,6 +20,10 @@ const Search: FC<IProps> = ({ search }) => {
     search(query);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <div className={styles.search} onClick={(event) => event.stopPropagation()}>
       <input
@@ -34,6 +38,9 @@ const Search: FC<IProps> = ({ search }) => {
       <NavLink to="/about">
         <Button color="primary">About</Button>
       </NavLink>
+      <Button onClick={toggleTheme} color="primary">
+        {`Switch to ${theme === 'light' ? 'Dark' : 'Light'}`}
+      </Button>
     </div>
   );
 };
