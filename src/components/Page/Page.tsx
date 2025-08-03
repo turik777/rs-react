@@ -32,6 +32,8 @@ const Page: FC = () => {
   const detailId = searchParams.get('details');
   const page = Number(searchParams.get('page')) || 1;
 
+  const { theme } = useTheme();
+
   useEffect(() => {
     fetchCharacters(() => getAllCharacters());
   }, []);
@@ -94,7 +96,7 @@ const Page: FC = () => {
 
   return (
     <div
-      className={styles.page}
+      className={`${styles.page} ${styles[theme]}`}
       onClick={() => detailId && handleCloseDetails()}
     >
       <Search search={handleSearch} />

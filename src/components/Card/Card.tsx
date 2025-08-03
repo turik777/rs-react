@@ -2,6 +2,7 @@ import type { FC, MouseEvent } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 import { useCharStore } from '../../store/useStore';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 interface IProps extends Character {
   size?: 'medium' | 'small';
@@ -26,6 +27,7 @@ const Card: FC<IProps> = ({
     id ? state.selectedCharIds.includes(id) : false
   );
   const toggleSelect = useCharStore((state) => state.toggle);
+  const { theme } = useTheme();
 
   function getStatusStyle(status: string) {
     switch (status) {
@@ -40,7 +42,7 @@ const Card: FC<IProps> = ({
 
   return (
     <div
-      className={`${styles.card} ${styles[size]} ${styles[hover]}`}
+      className={`${styles.card} ${styles[size]} ${styles[hover]} ${styles[theme]}`}
       onClick={onClick}
     >
       <img className={`${styles.image} ${styles[size]}`} src={image} alt="" />

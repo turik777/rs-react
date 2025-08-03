@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import styles from './button.module.scss';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 interface IProps {
   children: string;
@@ -9,9 +10,11 @@ interface IProps {
 }
 
 const Button: FC<IProps> = ({ children, color, onClick, disabled }) => {
+  const { theme } = useTheme();
+
   return (
     <button
-      className={`${styles.button} ${styles[color]}`}
+      className={`${styles.button} ${styles[color]} ${styles[theme]}`}
       onClick={onClick}
       disabled={disabled}
     >

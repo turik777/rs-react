@@ -3,6 +3,7 @@ import styles from './search.module.scss';
 import Button from '../Button/Button';
 import { NavLink } from 'react-router';
 import useStoredQuery from '../../utils/hooks/useSearchQuery';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 interface IProps {
   search: (query: string) => void;
@@ -10,6 +11,7 @@ interface IProps {
 
 const Search: FC<IProps> = ({ search }) => {
   const [query, setQuery, saveQuery] = useStoredQuery('search_3iq6e');
+  const { theme, setTheme } = useTheme();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -25,9 +27,12 @@ const Search: FC<IProps> = ({ search }) => {
   };
 
   return (
-    <div className={styles.search} onClick={(event) => event.stopPropagation()}>
+    <div
+      className={`${styles.search} ${styles[theme]}`}
+      onClick={(event) => event.stopPropagation()}
+    >
       <input
-        className={styles['search-bar']}
+        className={`${styles['search-bar']} ${styles[theme]}`}
         type="text"
         value={query}
         onChange={handleInputChange}
