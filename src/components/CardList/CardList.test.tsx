@@ -4,11 +4,16 @@ import '@testing-library/jest-dom/vitest';
 import CardList from './CardList';
 import { mockCharacters } from '../../utils/__mocks__/handlers';
 import { BrowserRouter, MemoryRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 afterEach(() => cleanup());
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 vi.mock('react-router', async () => {
   const actual =
@@ -38,9 +43,11 @@ describe('CardList', () => {
 
   it('call navigate with correct search params when card is clicked', () => {
     render(
-      <MemoryRouter initialEntries={['/?page=2']}>
-        <CardList result={mockCharacters} page={2} />
-      </MemoryRouter>
+      <ThemeProvider>
+        <MemoryRouter initialEntries={['/?page=2']}>
+          <CardList result={mockCharacters} page={2} />
+        </MemoryRouter>
+      </ThemeProvider>
     );
     const card = screen.getByText('Rick Sanchez');
     fireEvent.click(card);

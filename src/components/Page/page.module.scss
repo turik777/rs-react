@@ -1,7 +1,19 @@
+.light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+.dark {
+  --bg-color: #333333;
+  --text-color: #ffffff;
+}
+
 .page {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .result-wrapper {

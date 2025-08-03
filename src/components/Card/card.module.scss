@@ -1,10 +1,28 @@
+.light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+                0 1px 3px rgba(0, 0, 0, 0.24);
+  --box-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.16),
+                      0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.dark {
+  --bg-color: #333333;
+  --text-color: #ffffff;
+  --box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+                0 3px 6px rgba(0, 0, 0, 0.23);
+  --box-shadow-hover: 0 10px 20px rgba(0,0,0,0.19),
+                      0 6px  6px  rgba(0,0,0,0.23);
+}
+
 .card {
   max-width: 250px;
   border-radius: 20px;
   padding: 15px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 3px rgba(0, 0, 0, 0.24);
+  box-shadow: var(--box-shadow);
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .image {
@@ -24,9 +42,7 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.16),
-      0 3px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: var(--box-shadow-hover)
   }
 }
 
@@ -46,6 +62,13 @@
     border-bottom: 1px solid #cccccc;
     padding-bottom: 5px;
     margin-bottom: 5px;
+  }
+}
+
+.checkbox {
+  &:hover {
+    cursor: pointer;
+    color: #aaaaaa;
   }
 }
 

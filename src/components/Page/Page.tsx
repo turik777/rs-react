@@ -13,6 +13,10 @@ import Pagination from '../Pagination.tsx/Pagination';
 import { Outlet, useSearchParams } from 'react-router';
 import useSearchQuery from '../../utils/hooks/useSearchQuery';
 import NotFound from '../NotFound/NotFound';
+import { useCharStore } from '../../store/useStore';
+import Flyout from '../Flyout/Flyout';
+import { useTheme } from '../../utils/hooks/useTheme';
+import { downloadCsv } from '../../utils/helpers/downloadCsv';
 
 const Page: FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -23,8 +27,12 @@ const Page: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useSearchQuery('search_3iq6e');
 
+  const selectedChars = useCharStore((state) => state.selectedCharIds);
+
   const detailId = searchParams.get('details');
   const page = Number(searchParams.get('page')) || 1;
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     fetchCharacters(() => getAllCharacters());
@@ -88,10 +96,13 @@ const Page: FC = () => {
 
   return (
     <div
-      className={styles.page}
+      className={`${styles.page} ${styles[theme]}`}
       onClick={() => detailId && handleCloseDetails()}
     >
       <Search search={handleSearch} />
+      {selectedChars.length ? (
+        <Flyout download={() => downloadCsv(selectedChars)} />
+      ) : null}
       <div
         className={styles['pagination-wrapper']}
         onClick={(event) => event.stopPropagation()}

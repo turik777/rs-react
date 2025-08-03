@@ -2,13 +2,18 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import Search from './Search';
 import { BrowserRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 afterEach(() => {
   localStorage.clear();
 });
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 describe('Search', () => {
   it('call search function and set localStorage on button click', () => {

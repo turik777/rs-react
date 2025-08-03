@@ -1,11 +1,14 @@
 import type { FC } from 'react';
 import styles from './about.module.scss';
 import { Link } from 'react-router';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 const About: FC = () => {
   const year = new Date().getFullYear();
+  const { theme } = useTheme();
+
   return (
-    <div className={styles.about}>
+    <div className={`${styles.about} ${styles[theme]}`}>
       <span>Made</span>
       <span>by</span>
       <span>

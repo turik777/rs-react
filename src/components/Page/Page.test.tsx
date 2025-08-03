@@ -11,6 +11,7 @@ import * as api from '../../utils/api';
 import Page from './Page';
 import { mockCharacters } from '../../utils/__mocks__/handlers';
 import { BrowserRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 beforeEach(() => {
   vi.spyOn(api, 'getAllCharacters').mockResolvedValue(mockCharacters);
@@ -23,7 +24,11 @@ afterEach(() => {
 });
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 describe('Page', () => {
   it('search characters from localStorage', async () => {

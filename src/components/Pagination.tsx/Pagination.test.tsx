@@ -3,9 +3,14 @@ import { describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import Pagination from './Pagination';
 import { BrowserRouter } from 'react-router';
+import { ThemeProvider } from '../../context/ThemeProvider';
 
 const renderWithRouter = (ui: React.ReactElement) =>
-  render(<BrowserRouter>{ui}</BrowserRouter>);
+  render(
+    <ThemeProvider>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </ThemeProvider>
+  );
 
 describe('Pagination', () => {
   it('render correct page number', () => {
