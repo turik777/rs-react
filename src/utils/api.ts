@@ -14,12 +14,6 @@ async function fetchCharacters(url: string): Promise<Character[]> {
   return data.results;
 }
 
-export const getAllCharacters = (
-  url: string = API_URL
-): Promise<Character[]> => {
-  return fetchCharacters(url);
-};
-
 export const searchCharacters = (
   query: string,
   page: number = 1
