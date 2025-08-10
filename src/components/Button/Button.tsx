@@ -1,11 +1,11 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import styles from './button.module.scss';
 import { useTheme } from '../../utils/hooks/useTheme';
 
 interface IProps {
   children: string;
   color: 'primary' | 'error';
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
 }
 

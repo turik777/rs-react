@@ -28,16 +28,17 @@ const CardList: FC<IProps> = ({ result, page }) => {
 
   return (
     <div className={styles.list}>
-      {result.map(({ id, name, image }) => (
-        <div className={styles.link} key={id}>
+      {result.map((character) => (
+        <div className={styles.link} key={character.id}>
           <Card
             data-testid="card"
-            id={id}
-            name={name}
-            image={image}
+            character={character}
+            id={character.id}
+            name={character.name}
+            image={character.image}
             onClick={(event) => {
               event.stopPropagation();
-              handleClick(event, id);
+              handleClick(event, character.id);
             }}
             size="small"
             hover="hover"

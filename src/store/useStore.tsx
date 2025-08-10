@@ -1,25 +1,32 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import type { Character } from '../interface/interface';
 
 interface ICharStore {
-  selectedCharIds: string[];
-  toggle: (id: string) => void;
+  selectedChars: Character[];
+  toggle: (character: Character) => void;
   clearAll: () => void;
-  isSelected: (id: string) => boolean;
+  isSelected: (id: string | undefined) => boolean;
 }
 
 export const useCharStore = create<ICharStore>()(
   persist(
     (set, get) => ({
-      selectedCharIds: [],
-      toggle: (id: string) =>
-        set((state) => ({
-          selectedCharIds: state.selectedCharIds.includes(id)
-            ? state.selectedCharIds.filter((charId) => charId !== id)
-            : [...state.selectedCharIds, id],
-        })),
-      clearAll: () => set({ selectedCharIds: [] }),
-      isSelected: (id) => get().selectedCharIds.some((charId) => charId === id),
+      selectedChars: [],
+      toggle: (character) =>
+        set((state) => {
+          const filtered = state.selectedChars.filter(
+            (char) => char.id !== character.id
+          );
+          return {
+            selectedChars:
+              filtered.length < state.selectedChars.length
+                ? filtered
+                : [...filtered, character],
+          };
+        }),
+      clearAll: () => set({ selectedChars: [] }),
+      isSelected: (id) => get().selectedChars.some((char) => char.id === id),
     }),
     {
       name: 'selectedChars-3iq6e',

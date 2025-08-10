@@ -14,12 +14,6 @@ async function fetchCharacters(url: string): Promise<Character[]> {
   return data.results;
 }
 
-export const getAllCharacters = (
-  url: string = API_URL
-): Promise<Character[]> => {
-  return fetchCharacters(url);
-};
-
 export const searchCharacters = (
   query: string,
   page: number = 1
@@ -29,10 +23,9 @@ export const searchCharacters = (
 };
 
 export async function getTotalPages(query?: string): Promise<number> {
-  let res = await fetch(API_URL);
-  if (query) {
-    res = await fetch(`${API_URL}/?name=${query}`);
-  }
+  const res = query
+    ? await fetch(`${API_URL}/?name=${query}`)
+    : await fetch(API_URL);
   if (!res.ok) {
     throw new Error(`HTTP error! Status: ${res.status}`);
   }
