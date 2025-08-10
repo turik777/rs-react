@@ -1,12 +1,6 @@
-import { type FC, useState, useEffect } from 'react';
+import { type FC, useState } from 'react';
 import Search from '../Search/Search';
 import Result from '../Result/Result';
-import {
-  getAllCharacters,
-  getTotalPages,
-  searchCharacters,
-} from '../../utils/api';
-import type { Character } from '../../interface/interface';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
 import Pagination from '../Pagination.tsx/Pagination';
@@ -17,48 +11,27 @@ import { useCharStore } from '../../store/useStore';
 import Flyout from '../Flyout/Flyout';
 import { useTheme } from '../../utils/hooks/useTheme';
 import { downloadCsv } from '../../utils/helpers/downloadCsv';
+import { useCharacters } from '../../utils/hooks/useCharacters';
+import { useTotalPages } from '../../utils/hooks/useTotalPages';
 
 const Page: FC = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [throwError, setThrowError] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useSearchQuery('search_3iq6e');
-
   const selectedChars = useCharStore((state) => state.selectedCharIds);
-
   const detailId = searchParams.get('details');
   const page = Number(searchParams.get('page')) || 1;
 
   const { theme } = useTheme();
 
-  useEffect(() => {
-    fetchCharacters(() => getAllCharacters());
-  }, []);
-
-  useEffect(() => {
-    fetchCharacters(() => searchCharacters(query, page));
-    getTotalPages(query).then((value) => setTotalPages(value));
-  }, [query, page]);
-
-  const fetchCharacters = async (apiCall: () => Promise<Character[]>) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await apiCall();
-      setCharacters(data);
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('An unexpected error occurred.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    data: characters,
+    isFetching,
+    isLoading,
+    isError,
+    error,
+  } = useCharacters(query, page);
+  const { data: totalPages = 1 } = useTotalPages(query);
 
   const handleSearch = async (query: string) => {
     setQuery(query);
@@ -107,7 +80,7 @@ const Page: FC = () => {
         className={styles['pagination-wrapper']}
         onClick={(event) => event.stopPropagation()}
       >
-        {!loading && characters.length > 0 && (
+        {!isLoading && characters && (
           <Pagination
             page={page}
             pageChange={handlePageChange}
@@ -118,9 +91,9 @@ const Page: FC = () => {
       <div className={styles.info}>
         <div className={styles['result-wrapper']}>
           <Result
-            result={characters}
-            loading={loading}
-            error={error}
+            result={characters || []}
+            loading={isLoading || isFetching}
+            error={isError ? error?.message : null}
             page={page}
           />
         </div>

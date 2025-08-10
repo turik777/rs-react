@@ -1,36 +1,22 @@
-import { useEffect, useState, type FC } from 'react';
+import type { FC } from 'react';
 import styles from './details.module.scss';
 import Card from '../Card/Card';
 import { useSearchParams } from 'react-router';
-import type { Character } from '../../interface/interface';
-import { getCharacterById } from '../../utils/api';
 import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
+import { useCharacterById } from '../../utils/hooks/useCharacterById';
 
 const Details: FC = () => {
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams.get('details');
+  const id = searchParams.get('details') || '';
 
-  useEffect(() => {
-    if (!id) return;
-    setLoading(true);
-    setError(null);
-    getCharacterById(id)
-      .then((data) => {
-        setCharacter(data);
-      })
-      .catch((error) => {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('An unexpected error occurred.');
-        }
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+  const {
+    data: character,
+    isFetching,
+    isLoading,
+    isError,
+    error,
+  } = useCharacterById(id);
 
   const handleClose = () => {
     const params = new URLSearchParams(searchParams);
@@ -45,10 +31,10 @@ const Details: FC = () => {
       className={styles.details}
       onClick={(event) => event.stopPropagation()}
     >
-      {loading ? (
+      {isLoading || isFetching ? (
         <Loader />
-      ) : error ? (
-        <div>Error: {error}</div>
+      ) : isError ? (
+        <div>Error: {error.message}</div>
       ) : !character ? (
         <div>Character not found</div>
       ) : (
