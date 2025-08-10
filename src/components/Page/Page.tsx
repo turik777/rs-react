@@ -13,6 +13,7 @@ import { useTheme } from '../../utils/hooks/useTheme';
 import { downloadCsv } from '../../utils/helpers/downloadCsv';
 import { useCharacters } from '../../utils/hooks/useCharacters';
 import { useTotalPages } from '../../utils/hooks/useTotalPages';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Page: FC = () => {
   const [throwError, setThrowError] = useState(false);
@@ -24,6 +25,7 @@ const Page: FC = () => {
 
   const { theme } = useTheme();
 
+  const queryClient = useQueryClient();
   const {
     data: characters,
     isFetching,
@@ -32,6 +34,17 @@ const Page: FC = () => {
     error,
   } = useCharacters(query, page);
   const { data: totalPages = 1 } = useTotalPages(query);
+
+  const refetch = () => {
+    const keys = [
+      ['characters', query],
+      ['character', detailId],
+      ['totalPages', query],
+    ];
+    keys.forEach((key) => {
+      queryClient.invalidateQueries({ queryKey: key });
+    });
+  };
 
   const handleSearch = async (query: string) => {
     setQuery(query);
@@ -101,6 +114,15 @@ const Page: FC = () => {
       </div>
       <Button color="error" onClick={() => setThrowError(true)}>
         Throw Error
+      </Button>
+      <Button
+        color="error"
+        onClick={(event) => {
+          event.stopPropagation();
+          refetch();
+        }}
+      >
+        Refetch
       </Button>
     </div>
   );
