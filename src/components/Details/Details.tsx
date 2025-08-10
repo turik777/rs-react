@@ -40,6 +40,7 @@ const Details: FC = () => {
       ) : (
         <>
           <Card
+            character={character}
             name={character.name}
             image={character.image}
             species={character.species}

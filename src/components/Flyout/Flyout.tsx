@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const Flyout: FC<IProps> = ({ download }) => {
-  const selectedChars = useCharStore((state) => state.selectedCharIds);
+  const selectedChars = useCharStore((state) => state.selectedChars);
   const clearSelection = useCharStore((state) => state.clearAll);
   const { theme } = useTheme();
 

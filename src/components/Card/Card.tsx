@@ -9,6 +9,7 @@ interface IProps extends Character {
   hover?: 'hover' | 'none';
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
   checkbox?: boolean;
+  character: Character;
 }
 
 const Card: FC<IProps> = ({
@@ -22,10 +23,9 @@ const Card: FC<IProps> = ({
   hover = 'none',
   onClick,
   checkbox = false,
+  character,
 }) => {
-  const isSelected = useCharStore((state) =>
-    id ? state.selectedCharIds.includes(id) : false
-  );
+  const isSelected = useCharStore((state) => state.isSelected(id));
   const toggleSelect = useCharStore((state) => state.toggle);
   const { theme } = useTheme();
 
@@ -74,7 +74,7 @@ const Card: FC<IProps> = ({
             type="checkbox"
             id={`favorite-${id}`}
             checked={isSelected}
-            onChange={() => id && toggleSelect(id)}
+            onChange={() => character && toggleSelect(character)}
           />
           <label className={styles.checkbox} htmlFor={`favorite-${id}`}>
             Add to favorite

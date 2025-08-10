@@ -1,11 +1,8 @@
-import { getCharacterById } from '../api';
+import type { Character } from '../../interface/interface';
 
-export const downloadCsv = async (selectedChars: string[]) => {
+export const downloadCsv = async (selectedChars: Character[]) => {
   try {
-    const charactersToDownload = await Promise.all(
-      selectedChars.map((id) => getCharacterById(id))
-    );
-    const rows = charactersToDownload.map(
+    const rows = selectedChars.map(
       (character) =>
         `"${character.id}","${character.name}","${character.species}","${character.gender}","${character.status}"`
     );

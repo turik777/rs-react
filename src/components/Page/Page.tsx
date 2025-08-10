@@ -19,7 +19,7 @@ const Page: FC = () => {
   const [throwError, setThrowError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useSearchQuery('search_3iq6e');
-  const selectedChars = useCharStore((state) => state.selectedCharIds);
+  const selectedChars = useCharStore((state) => state.selectedChars);
   const detailId = searchParams.get('details');
   const page = Number(searchParams.get('page')) || 1;
 
@@ -112,9 +112,11 @@ const Page: FC = () => {
         </div>
         <Outlet />
       </div>
-      <Button color="error" onClick={() => setThrowError(true)}>
-        Throw Error
-      </Button>
+      <div className={styles.hide}>
+        <Button color="error" onClick={() => setThrowError(true)}>
+          Throw Error
+        </Button>
+      </div>
       <Button
         color="error"
         onClick={(event) => {
