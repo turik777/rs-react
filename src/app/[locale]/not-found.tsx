@@ -1,11 +1,14 @@
 import type { FC } from 'react';
 import styles from '../../components/NotFound/not-found.module.scss';
+import { useTranslations } from 'next-intl';
 
 const NotFound: FC = () => {
+  const t = useTranslations('NotFound');
+
   return (
     <div className={styles['not-found']}>
       <h1>404</h1>
-      <p>Sorry, the page you’re looking for doesn’t exist.</p>
+      {t('notFound')}
     </div>
   );
 };

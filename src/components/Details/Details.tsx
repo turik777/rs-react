@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import { useCharacterById } from '../../utils/hooks/useCharacterById';
+import { useTranslations } from 'next-intl';
 
 const Details: FC = () => {
   const searchParams = useSearchParams();
@@ -25,6 +26,8 @@ const Details: FC = () => {
     params.delete('details');
     router.push(`${pathname}?${params}`);
   };
+
+  const t = useTranslations('HomePage');
 
   if (!id) return null;
 
@@ -50,7 +53,7 @@ const Details: FC = () => {
             status={character.status}
           />
           <Button color="primary" onClick={handleClose}>
-            Close
+            {t('close')}
           </Button>
         </>
       )}

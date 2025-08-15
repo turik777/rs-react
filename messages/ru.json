@@ -1,0 +1,28 @@
+{
+  "HomePage": {
+    "search": "Поиск",
+    "about": "Обо мне",
+    "theme": "Сменить на {mode}",
+    "themeDark": "тёмную",
+    "themeLight": "светлую",
+    "language": "EN",
+
+    "favorite": "В избранное",
+    "species": "Вид:",
+    "gender": "Пол:",
+    "status": "Статус:",
+    "close": "Закрыть",
+
+    "unselect": "Убрать все",
+    "selected": "выбрано предметов",
+    "download": "Скачать"
+  },
+  "About": {
+    "made": "Разработал",
+    "by": "",
+    "name": "Артур Базалук"
+  },
+  "NotFound": {
+    "notFound": "Извините, страница, которую вы ищете, не существует."
+  }
+}

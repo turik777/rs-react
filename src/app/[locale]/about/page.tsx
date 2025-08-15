@@ -1,23 +1,28 @@
+'use client';
+
 import { type FC } from 'react';
 import styles from '../../../components/About/about.module.scss';
 import { Link } from 'react-router';
-import { useTheme } from '../../utils/hooks/useTheme';
+import { useTheme } from '../../../utils/hooks/useTheme';
+import { useTranslations } from 'next-intl';
 
 const About: FC = () => {
   const year = new Date().getFullYear();
   const { theme } = useTheme();
 
+  const t = useTranslations('About');
+
   return (
     <div className={`${styles.about} ${styles[theme]}`}>
-      <span>Made</span>
-      <span>by</span>
+      <span>{t('made')}</span>
+      <span>{t('by')}</span>
       <span>
         <Link
           className={styles.link}
           to="https://www.github.com/turik777"
           target="_blank"
         >
-          <span> Artur Bazaluk</span>
+          <span>{t('name')}</span>
         </Link>
       </span>
       <span>{year}</span>

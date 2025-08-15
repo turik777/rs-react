@@ -1,0 +1,28 @@
+{
+  "HomePage": {
+    "search": "Search",
+    "about": "About",
+    "theme": "Switch to {mode}",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "language": "RU",
+
+    "favorite": "Add to favorite",
+    "species": "Species:",
+    "gender": "Gender:",
+    "status": "Status:",
+    "close": "Close",
+
+    "unselect": "Unselect All",
+    "selected": "items are selected",
+    "download": "Download"
+  },
+  "About": {
+    "made": "Made",
+    "by": "by",
+    "name": "Artur Bazaluk"
+  },
+  "NotFound": {
+    "notFound": "Sorry, the page you’re looking for doesn’t exist."
+  }
+}

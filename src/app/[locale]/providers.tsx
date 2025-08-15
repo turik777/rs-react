@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, type FC, type ReactNode } from 'react';
-import { ThemeContext, type Theme } from '../context/ThemeContext';
+import { ThemeContext, type Theme } from '../../context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export const queryClient = new QueryClient({
