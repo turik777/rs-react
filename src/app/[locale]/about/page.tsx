@@ -2,8 +2,8 @@
 
 import { type FC } from 'react';
 import styles from '../../../components/About/about.module.scss';
-import { Link } from 'react-router';
 import { useTheme } from '../../../utils/hooks/useTheme';
+import { Link } from '../../../i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 const About: FC = () => {
@@ -19,7 +19,7 @@ const About: FC = () => {
       <span>
         <Link
           className={styles.link}
-          to="https://www.github.com/turik777"
+          href="https://www.github.com/turik777"
           target="_blank"
         >
           <span>{t('name')}</span>
@@ -29,7 +29,7 @@ const About: FC = () => {
       <span>
         <Link
           className={styles.link}
-          to="https://rs.school/courses/reactjs"
+          href="https://rs.school/courses/reactjs"
           target="_blank"
         >
           <span>RS School</span>

@@ -1,11 +1,11 @@
 import type { FC, MouseEvent } from 'react';
 import styles from './search.module.scss';
 import Button from '../Button/Button';
-import { NavLink } from 'react-router';
 import useStoredQuery from '../../utils/hooks/useSearchQuery';
 import { useTheme } from '../../utils/hooks/useTheme';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
+import { Link } from '../../i18n/navigation';
 
 interface IProps {
   search: (query: string) => void;
@@ -52,9 +52,9 @@ const Search: FC<IProps> = ({ search }) => {
       <Button color="primary" onClick={handleSearch}>
         {t('search')}
       </Button>
-      <NavLink to="/about">
+      <Link href="/about">
         <Button color="primary">{t('about')}</Button>
-      </NavLink>
+      </Link>
       <Button onClick={toggleTheme} color="primary">
         {t('theme', { mode: nextMode })}
       </Button>
