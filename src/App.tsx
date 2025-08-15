@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import './assets/styles/global.module.scss';
 import Page from './components/Page/Page';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 

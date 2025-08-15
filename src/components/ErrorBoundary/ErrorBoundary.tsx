@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Component } from 'react';
 import styles from './error-boundary.module.scss';
 import Button from '../Button/Button';

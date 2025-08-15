@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './card-list.module.scss';
 import Card from '../Card/Card';
-import { useSearchParams, useNavigate } from 'react-router';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 interface IProps {
   result: Character[];
@@ -10,8 +10,8 @@ interface IProps {
 }
 
 const CardList: FC<IProps> = ({ result, page }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const handleClick = (event: React.MouseEvent, id: string | undefined) => {
     const target = event.target;
@@ -23,7 +23,7 @@ const CardList: FC<IProps> = ({ result, page }) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', `${page}`);
     params.set('details', `${id}`);
-    navigate({ pathname: '/', search: `${params}` });
+    router.push(`/?${params}`);
   };
 
   return (

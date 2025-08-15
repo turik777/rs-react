@@ -1,13 +1,15 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import styles from './details.module.scss';
 import Card from '../Card/Card';
-import { useSearchParams } from 'react-router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import { useCharacterById } from '../../utils/hooks/useCharacterById';
 
 const Details: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const id = searchParams.get('details') || '';
 
   const {
@@ -21,7 +23,7 @@ const Details: FC = () => {
   const handleClose = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('details');
-    setSearchParams(params);
+    router.push(`${pathname}?${params}`);
   };
 
   if (!id) return null;
