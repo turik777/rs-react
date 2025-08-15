@@ -3,6 +3,7 @@ import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 import { useCharStore } from '../../store/useStore';
 import { useTheme } from '../../utils/hooks/useTheme';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 interface IProps extends Character {
@@ -48,7 +49,13 @@ const Card: FC<IProps> = ({
       className={`${styles.card} ${styles[size]} ${styles[hover]} ${styles[theme]}`}
       onClick={onClick}
     >
-      <img className={`${styles.image} ${styles[size]}`} src={image} alt="" />
+      <Image
+        className={`${styles.image} ${styles[size]}`}
+        src={image}
+        width={150}
+        height={150}
+        alt=""
+      />
       <p className={styles.name}>{name}</p>
       {species && (
         <div className={styles.info}>
