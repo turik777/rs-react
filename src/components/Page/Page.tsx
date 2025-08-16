@@ -20,7 +20,6 @@ import Details from '../Details/Details';
 
 const Page: FC = () => {
   const [throwError, setThrowError] = useState(false);
-  // const [searchParams, setSearchParams] = useSearchParams();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
