@@ -6,41 +6,43 @@ import Result from '../Result/Result';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
 import Pagination from '../Pagination/Pagination';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import useSearchQuery from '../../utils/hooks/useSearchQuery';
+import { usePathname, useRouter } from 'next/navigation';
 import NotFound from '../../app/[locale]/not-found';
 import { useCharStore } from '../../store/useStore';
 import Flyout from '../Flyout/Flyout';
 import { useTheme } from '../../utils/hooks/useTheme';
 import { downloadCsv } from '../../utils/helpers/downloadCsv';
-import { useCharacters } from '../../utils/hooks/useCharacters';
-import { useTotalPages } from '../../utils/hooks/useTotalPages';
-import { useQueryClient } from '@tanstack/react-query';
 import Details from '../Details/Details';
+import type { Character } from '../../interface/interface';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCharacters } from '../../utils/hooks/useCharacters';
 
-const Page: FC = () => {
+interface IProps {
+  characters: Character[];
+  totalPages: number;
+  page: number;
+  query: string;
+  searchParams: { [key: string]: string };
+}
+
+const Page: FC<IProps> = ({
+  characters,
+  totalPages,
+  page,
+  query,
+  searchParams,
+}) => {
   const [throwError, setThrowError] = useState(false);
-  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [query, setQuery] = useSearchQuery('search_3iq6e');
   const selectedChars = useCharStore((state) => state.selectedChars);
-  const detailId = searchParams.get('details');
-  const page = Number(searchParams.get('page')) || 1;
+  const detailId = searchParams.details;
 
   const { theme } = useTheme();
 
   const queryClient = useQueryClient();
-  const {
-    data: characters,
-    isFetching,
-    isLoading,
-    isError,
-    error,
-  } = useCharacters(query, page);
-  const { data: totalPages = 1 } = useTotalPages(query);
-
+  const { isFetching, isLoading, isError, error } = useCharacters(query, page);
   const refetch = () => {
     const keys = [
       ['characters', query],
@@ -52,19 +54,17 @@ const Page: FC = () => {
     });
   };
 
-  const handleSearch = async (query: string) => {
-    setQuery(query);
+  const handleSearch = (query: string) => {
     const params = new URLSearchParams(searchParams);
+    params.set('search', query);
     params.set('page', '1');
-    const id = searchParams.get('details');
-    if (id) {
-      params.set('details', id);
-    } else {
-      router.push(`${pathname}?${params}`);
+    if (detailId) {
+      params.set('details', detailId);
     }
+    router.push(`${pathname}?${params}`);
   };
 
-  const handlePageChange = async (page: number) => {
+  const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', `${page}`);
     router.push(`${pathname}?${params}`);
@@ -76,8 +76,8 @@ const Page: FC = () => {
     router.push(`${pathname}?${params}`);
   };
 
-  const hasInvalidParam = Array.from(searchParams.keys()).some(
-    (param) => !['page', 'details'].includes(param)
+  const hasInvalidParam = Object.keys(searchParams).some(
+    (param) => !['page', 'details', 'search'].includes(param)
   );
 
   if (throwError) {
