@@ -32,10 +32,11 @@ const Search: FC<IProps> = ({ search }) => {
   const nextMode = theme === 'light' ? t('themeDark') : t('themeLight');
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const toggleLanguage = (event: MouseEvent<HTMLButtonElement>) => {
     const newLocale = event.currentTarget.textContent;
     const newPath = `/${newLocale}${pathname.slice(3)}`;
-    router.push(newPath);
+    router.push(`${newPath}?${searchParams}`);
   };
 
   return (
