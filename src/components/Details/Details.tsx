@@ -7,7 +7,11 @@ import Button from '../Button/Button';
 import { useCharacterById } from '../../utils/hooks/useCharacterById';
 import { useTranslations } from 'next-intl';
 
-const Details: FC = () => {
+interface IProps {
+  isPending: boolean;
+}
+
+const Details: FC<IProps> = ({ isPending }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -36,7 +40,7 @@ const Details: FC = () => {
       className={styles.details}
       onClick={(event) => event.stopPropagation()}
     >
-      {isLoading || isFetching ? (
+      {isLoading || isFetching || isPending ? (
         <Loader />
       ) : isError ? (
         <div>Error: {error.message}</div>

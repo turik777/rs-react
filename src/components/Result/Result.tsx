@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import type { Character } from '../../interface/interface';
 import styles from './result.module.scss';
 import Loader from '../Loader/Loader';
@@ -8,10 +8,13 @@ interface IProps {
   result: Character[];
   loading: boolean;
   error: string | null;
-  page: number;
+  onCardClick: (
+    event: MouseEvent<HTMLDivElement>,
+    id: string | undefined
+  ) => void;
 }
 
-const Result: FC<IProps> = ({ loading, result, error, page }) => {
+const Result: FC<IProps> = ({ loading, result, error, onCardClick }) => {
   return (
     <div className={styles.result}>
       {loading ? (
@@ -22,7 +25,7 @@ const Result: FC<IProps> = ({ loading, result, error, page }) => {
         <div className={styles.null}>No results</div>
       ) : (
         <div className={styles.info}>
-          <CardList result={result} page={page} />
+          <CardList result={result} onCardClick={onCardClick} />
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { type FC, useState, useTransition } from 'react';
 import Search from '../Search/Search';
 import Result from '../Result/Result';
 import Button from '../Button/Button';
@@ -35,6 +35,8 @@ const Page: FC<IProps> = ({
   const [throwError, setThrowError] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [isPendingDetails, startTransitionDetails] = useTransition();
 
   const selectedChars = useCharStore((state) => state.selectedChars);
   const detailId = searchParams.details;
@@ -67,13 +69,30 @@ const Page: FC<IProps> = ({
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', `${page}`);
-    router.push(`${pathname}?${params}`);
+    startTransition(() => {
+      router.push(`${pathname}?${params}`);
+    });
   };
 
   const handleCloseDetails = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('details');
     router.push(`${pathname}?${params}`);
+  };
+
+  const handleCardClick = (event: React.MouseEvent, id: string | undefined) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.closest('input[type="checkbox"]') || target.closest('label')) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${page}`);
+    params.set('details', `${id}`);
+    startTransitionDetails(() => {
+      router.push(`/?${params}`);
+    });
   };
 
   const hasInvalidParam = Object.keys(searchParams).some(
@@ -113,12 +132,12 @@ const Page: FC<IProps> = ({
         <div className={styles['result-wrapper']}>
           <Result
             result={characters || []}
-            loading={isLoading || isFetching}
+            loading={isLoading || isFetching || isPending}
             error={isError ? error?.message : null}
-            page={page}
+            onCardClick={handleCardClick}
           />
         </div>
-        {detailId && <Details />}
+        {detailId && <Details isPending={isPendingDetails} />}
       </div>
       <div className={styles.hide}>
         <Button color="error" onClick={() => setThrowError(true)}>
