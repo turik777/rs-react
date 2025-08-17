@@ -1,10 +1,10 @@
-import type { FC, MouseEvent } from 'react';
+import { useEffect, type FC, type MouseEvent } from 'react';
 import styles from './search.module.scss';
 import Button from '../Button/Button';
 import useStoredQuery from '../../utils/hooks/useSearchQuery';
 import { useTheme } from '../../utils/hooks/useTheme';
 import { useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '../../i18n/navigation';
 
 interface IProps {
@@ -26,7 +26,15 @@ const Search: FC<IProps> = ({ search }) => {
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
+    localStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
   };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme);
+    }
+  }, [setTheme]);
 
   const t = useTranslations('HomePage');
   const nextMode = theme === 'light' ? t('themeDark') : t('themeLight');
