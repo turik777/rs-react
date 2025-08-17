@@ -3,7 +3,7 @@ import type { Character } from '../interface/interface';
 export const API_URL = 'https://rickandmortyapi.com/api/character';
 
 async function fetchCharacters(url: string): Promise<Character[]> {
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: 'force-cache' });
   if (res.status === 404) {
     return [];
   }
@@ -24,8 +24,8 @@ export const searchCharacters = (
 
 export async function getTotalPages(query?: string): Promise<number> {
   const res = query
-    ? await fetch(`${API_URL}/?name=${query}`)
-    : await fetch(API_URL);
+    ? await fetch(`${API_URL}/?name=${query}`, { cache: 'force-cache' })
+    : await fetch(API_URL, { cache: 'force-cache' });
   if (!res.ok) {
     throw new Error(`HTTP error! Status: ${res.status}`);
   }
@@ -37,7 +37,7 @@ export async function getTotalPages(query?: string): Promise<number> {
 }
 
 export const getCharacterById = async (id: string): Promise<Character> => {
-  const res = await fetch(`${API_URL}/${id}`);
+  const res = await fetch(`${API_URL}/${id}`, { cache: 'force-cache' });
   if (!res.ok) {
     throw new Error(`Failed to fetch character with id ${id}`);
   }

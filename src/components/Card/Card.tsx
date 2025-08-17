@@ -3,6 +3,8 @@ import type { Character } from '../../interface/interface';
 import styles from './card.module.scss';
 import { useCharStore } from '../../store/useStore';
 import { useTheme } from '../../utils/hooks/useTheme';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 interface IProps extends Character {
   size?: 'medium' | 'small';
@@ -40,28 +42,37 @@ const Card: FC<IProps> = ({
     }
   }
 
+  const t = useTranslations('HomePage');
+
   return (
     <div
       className={`${styles.card} ${styles[size]} ${styles[hover]} ${styles[theme]}`}
       onClick={onClick}
     >
-      <img className={`${styles.image} ${styles[size]}`} src={image} alt="" />
+      <Image
+        className={`${styles.image} ${styles[size]}`}
+        src={image}
+        width={150}
+        height={150}
+        alt=""
+        priority
+      />
       <p className={styles.name}>{name}</p>
       {species && (
         <div className={styles.info}>
-          <span>Species: </span>
+          <span>{t('species')} </span>
           <span>{species}</span>
         </div>
       )}
       {gender && (
         <div className={styles.info}>
-          <span>Gender: </span>
+          <span>{t('gender')} </span>
           <span>{gender}</span>
         </div>
       )}
       {status && (
         <div className={styles.info}>
-          <span>Status: </span>
+          <span>{t('status')} </span>
           <span
             className={getStatusStyle(status)}
           >{` ${status?.toUpperCase()}`}</span>
@@ -77,7 +88,7 @@ const Card: FC<IProps> = ({
             onChange={() => character && toggleSelect(character)}
           />
           <label className={styles.checkbox} htmlFor={`favorite-${id}`}>
-            Add to favorite
+            {t('favorite')}
           </label>
         </div>
       )}

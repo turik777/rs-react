@@ -1,40 +1,50 @@
-import { type FC, useState } from 'react';
+'use client';
+
+import { type FC, useState, useTransition } from 'react';
 import Search from '../Search/Search';
 import Result from '../Result/Result';
 import Button from '../Button/Button';
 import styles from './page.module.scss';
-import Pagination from '../Pagination.tsx/Pagination';
-import { Outlet, useSearchParams } from 'react-router';
-import useSearchQuery from '../../utils/hooks/useSearchQuery';
-import NotFound from '../NotFound/NotFound';
+import Pagination from '../Pagination/Pagination';
+import { usePathname, useRouter } from 'next/navigation';
+import NotFound from '../../app/[locale]/not-found';
 import { useCharStore } from '../../store/useStore';
 import Flyout from '../Flyout/Flyout';
 import { useTheme } from '../../utils/hooks/useTheme';
 import { downloadCsv } from '../../utils/helpers/downloadCsv';
-import { useCharacters } from '../../utils/hooks/useCharacters';
-import { useTotalPages } from '../../utils/hooks/useTotalPages';
+import Details from '../Details/Details';
+import type { Character } from '../../interface/interface';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCharacters } from '../../utils/hooks/useCharacters';
 
-const Page: FC = () => {
+interface IProps {
+  characters: Character[];
+  totalPages: number;
+  page: number;
+  query: string;
+  searchParams: { [key: string]: string };
+}
+
+const Page: FC<IProps> = ({
+  characters,
+  totalPages,
+  page,
+  query,
+  searchParams,
+}) => {
   const [throwError, setThrowError] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useSearchQuery('search_3iq6e');
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [isPendingDetails, startTransitionDetails] = useTransition();
+
   const selectedChars = useCharStore((state) => state.selectedChars);
-  const detailId = searchParams.get('details');
-  const page = Number(searchParams.get('page')) || 1;
+  const detailId = searchParams.details;
 
   const { theme } = useTheme();
 
   const queryClient = useQueryClient();
-  const {
-    data: characters,
-    isFetching,
-    isLoading,
-    isError,
-    error,
-  } = useCharacters(query, page);
-  const { data: totalPages = 1 } = useTotalPages(query);
-
+  const { isFetching, isLoading, isError, error } = useCharacters(query, page);
   const refetch = () => {
     const keys = [
       ['characters', query],
@@ -46,30 +56,47 @@ const Page: FC = () => {
     });
   };
 
-  const handleSearch = async (query: string) => {
-    setQuery(query);
-    const id = searchParams.get('details');
-    if (id) {
-      setSearchParams({ page: '1', details: `${id}` });
-    } else {
-      setSearchParams({ page: '1' });
+  const handleSearch = (query: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('search', query);
+    params.set('page', '1');
+    if (detailId) {
+      params.set('details', detailId);
     }
+    router.push(`${pathname}?${params}`);
   };
 
-  const handlePageChange = async (page: number) => {
+  const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', `${page}`);
-    setSearchParams(params);
+    startTransition(() => {
+      router.push(`${pathname}?${params}`);
+    });
   };
 
   const handleCloseDetails = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('details');
-    setSearchParams(params);
+    router.push(`${pathname}?${params}`);
   };
 
-  const hasInvalidParam = Array.from(searchParams.keys()).some(
-    (param) => !['page', 'details'].includes(param)
+  const handleCardClick = (event: React.MouseEvent, id: string | undefined) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.closest('input[type="checkbox"]') || target.closest('label')) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${page}`);
+    params.set('details', `${id}`);
+    startTransitionDetails(() => {
+      router.push(`/?${params}`);
+    });
+  };
+
+  const hasInvalidParam = Object.keys(searchParams).some(
+    (param) => !['page', 'details', 'search'].includes(param)
   );
 
   if (throwError) {
@@ -105,12 +132,12 @@ const Page: FC = () => {
         <div className={styles['result-wrapper']}>
           <Result
             result={characters || []}
-            loading={isLoading || isFetching}
+            loading={isLoading || isFetching || isPending}
             error={isError ? error?.message : null}
-            page={page}
+            onCardClick={handleCardClick}
           />
         </div>
-        <Outlet />
+        {detailId && <Details isPending={isPendingDetails} />}
       </div>
       <div className={styles.hide}>
         <Button color="error" onClick={() => setThrowError(true)}>

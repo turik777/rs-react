@@ -1,13 +1,20 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import styles from './details.module.scss';
 import Card from '../Card/Card';
-import { useSearchParams } from 'react-router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import { useCharacterById } from '../../utils/hooks/useCharacterById';
+import { useTranslations } from 'next-intl';
 
-const Details: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+interface IProps {
+  isPending: boolean;
+}
+
+const Details: FC<IProps> = ({ isPending }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const id = searchParams.get('details') || '';
 
   const {
@@ -21,8 +28,10 @@ const Details: FC = () => {
   const handleClose = () => {
     const params = new URLSearchParams(searchParams);
     params.delete('details');
-    setSearchParams(params);
+    router.push(`${pathname}?${params}`);
   };
+
+  const t = useTranslations('HomePage');
 
   if (!id) return null;
 
@@ -31,7 +40,7 @@ const Details: FC = () => {
       className={styles.details}
       onClick={(event) => event.stopPropagation()}
     >
-      {isLoading || isFetching ? (
+      {isLoading || isFetching || isPending ? (
         <Loader />
       ) : isError ? (
         <div>Error: {error.message}</div>
@@ -48,7 +57,7 @@ const Details: FC = () => {
             status={character.status}
           />
           <Button color="primary" onClick={handleClose}>
-            Close
+            {t('close')}
           </Button>
         </>
       )}
