@@ -55,6 +55,7 @@ const Card: FC<IProps> = ({
         width={150}
         height={150}
         alt=""
+        priority
       />
       <p className={styles.name}>{name}</p>
       {species && (
