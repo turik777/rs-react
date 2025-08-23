@@ -1,0 +1,18 @@
+export const errorMessages = {
+  name: 'Name is required.',
+  nameUppercase: 'Name must start with an uppercase letter.',
+  age: 'Age is required.',
+  agePositive: 'Age must be a positive number.',
+  email: 'Email is required.',
+  emailInvalid: 'Invalid email address.',
+  password: 'Password is required.',
+  passwordLength: 'Password must be at least 8 characters long.',
+  passwordMatch: 'Passwords do not match.',
+  passwordConfirm: 'Password confirmation is required.',
+  gender: 'Please select a gender.',
+  country: 'Please select a country.',
+  picture: 'A picture is required.',
+  pictureSize: `Max file size is 10MB.`,
+  pictureType: 'Only .png and .jpeg formats are supported.',
+  terms: 'You must accept the Terms and Conditions.',
+};

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .button {
-  @apply bg-blue-600 text-white font-bold px-8 py-3 rounded-lg shadow-md hover:bg-blue-500 transition cursor-pointer;
+  @apply bg-blue-600 text-white font-bold px-8 py-3 rounded-lg shadow-md hover:bg-blue-500 transition cursor-pointer disabled:bg-gray-500 disabled:cursor-default;
 }
 
 .overlay {
