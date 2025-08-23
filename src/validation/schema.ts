@@ -21,7 +21,13 @@ export const schema = z
     password: z
       .string()
       .min(1, { message: errorMessages.password })
-      .min(8, { message: errorMessages.passwordLength }),
+      .min(8, { message: errorMessages.passwordLength })
+      .regex(/[A-Z]/, { message: errorMessages.passwordUppercase })
+      .regex(/[a-z]/, { message: errorMessages.passwordLowercase })
+      .regex(/\d/, { message: errorMessages.passwordNumber })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+        message: errorMessages.passwordSpecial,
+      }),
     passwordConfirm: z
       .string()
       .min(1, { message: errorMessages.passwordConfirm }),

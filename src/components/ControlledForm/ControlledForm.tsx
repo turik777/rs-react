@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { countries } from '../../constants/countries';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { fileToBase64 } from '../../utils/fileToBase64';
+import PasswordStrength from '../PasswordStrength/PasswordStrength';
 
 interface IProps {
   onSubmit: (data: TFormData) => void;
@@ -16,6 +17,7 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    watch,
   } = useForm<TFormData>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -23,6 +25,8 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
       country: '',
     },
   });
+
+  const password = watch('password');
 
   const processSubmit: SubmitHandler<TFormData> = async (data) => {
     const pictureFile = data.picture[0];
@@ -82,6 +86,7 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
             className="form-input"
             {...register('password')}
           />
+          <PasswordStrength password={password} />
           <ErrorMessage errors={errors} field="password" />
         </div>
         <div className="w-1/2">
