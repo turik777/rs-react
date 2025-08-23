@@ -1,10 +1,11 @@
 import React from 'react';
 import Button from '../Button/Button';
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { schema, type TFormData } from '../../validation/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { countries } from '../../constants/countries';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { fileToBase64 } from '../../utils/fileToBase64';
 
 interface IProps {
   onSubmit: (data: TFormData) => void;
@@ -23,8 +24,14 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
     },
   });
 
+  const processSubmit: SubmitHandler<TFormData> = async (data) => {
+    const pictureFile = data.picture[0];
+    const base64Picture = await fileToBase64(pictureFile);
+    onSubmit({ ...data, picture: base64Picture });
+  };
+
   return (
-    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-4" onSubmit={handleSubmit(processSubmit)}>
       <div className="flex gap-3">
         <div className="w-4/5">
           <label htmlFor="name-controlled" className="form-label">
