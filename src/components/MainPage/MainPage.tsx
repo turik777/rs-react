@@ -5,6 +5,7 @@ import ControlledForm from '../ControlledForm/ControlledForm';
 import SubmittedDataList from '../SubmittedData/SubmittedDataList/SubmittedDataList';
 import { useFormStore } from '../../store/store';
 import type { TFormData } from '../../validation/schema';
+import UncontrolledForm from '../UncontrolledForm/UncontrolledForm';
 
 function MainPage() {
   const [isControlledFormOpen, setControlledFormOpen] = useState(false);
@@ -14,6 +15,11 @@ function MainPage() {
   const handleControlledSubmit = (data: TFormData) => {
     addForm(data);
     setControlledFormOpen(false);
+  };
+
+  const handleUncontrolledSubmit = (data: TFormData) => {
+    addForm(data);
+    setUncontrolledFormOpen(false);
   };
 
   return (
@@ -47,7 +53,9 @@ function MainPage() {
         title="Uncontrolled Form"
         isOpen={isUncontrolledFormOpen}
         onClose={() => setUncontrolledFormOpen(false)}
-      ></Modal>
+      >
+        <UncontrolledForm onSubmit={handleUncontrolledSubmit} />
+      </Modal>
     </div>
   );
 }

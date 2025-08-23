@@ -11,7 +11,7 @@ const ErrorMessage: FC<IProps> = ({ field, errors }) => {
   const error = errors[field];
 
   return (
-    <div className="h-2 text-red-500 text-xs mt-1">
+    <div className="h-2 text-red-500 text-xs mt-1 mb-2">
       {error && typeof error.message === 'string' && <p>{error.message}</p>}
     </div>
   );
