@@ -7,6 +7,7 @@ const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 
 export const schema = z
   .object({
+    id: z.number().optional(),
     name: z
       .string()
       .min(1, { message: errorMessages.name })

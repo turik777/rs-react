@@ -3,11 +3,17 @@ import type { TFormData } from '../../../validation/schema';
 
 interface Props {
   data: TFormData | null;
+  isNew?: boolean;
 }
 
-const SubmittedDataCard: React.FC<Props> = ({ data }) => {
+const SubmittedDataCard: React.FC<Props> = ({ data, isNew }) => {
+  const cardClasses = `
+    shadow-lg rounded-lg p-4 md:w-200
+    ${isNew ? 'bg-green-100 border-green-400' : 'bg-white'}
+  `;
+
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 md:w-200">
+    <div className={cardClasses}>
       {data ? (
         <div className="space-y-3">
           {data.picture && <img src={data.picture} className="image" />}

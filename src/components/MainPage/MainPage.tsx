@@ -11,15 +11,25 @@ function MainPage() {
   const [isControlledFormOpen, setControlledFormOpen] = useState(false);
   const [isUncontrolledFormOpen, setUncontrolledFormOpen] = useState(false);
   const { submittedForms, addForm } = useFormStore();
+  const [lastSubmittedId, setLastSubmittedId] = useState<number>(0);
+
+  const handleSubmit = (
+    data: TFormData,
+    setFormOpen: (isOpen: boolean) => void
+  ) => {
+    const newId = Date.now();
+    const newDataWithId = { ...data, id: newId };
+    addForm(newDataWithId);
+    setFormOpen(false);
+    setLastSubmittedId(newId);
+  };
 
   const handleControlledSubmit = (data: TFormData) => {
-    addForm(data);
-    setControlledFormOpen(false);
+    handleSubmit(data, setControlledFormOpen);
   };
 
   const handleUncontrolledSubmit = (data: TFormData) => {
-    addForm(data);
-    setUncontrolledFormOpen(false);
+    handleSubmit(data, setUncontrolledFormOpen);
   };
 
   return (
@@ -38,7 +48,11 @@ function MainPage() {
       </div>
 
       <div className="flex justify-center">
-        <SubmittedDataList title="Submitted Form Data" data={submittedForms} />
+        <SubmittedDataList
+          title="Submitted Form Data"
+          data={submittedForms}
+          lastSubmittedId={lastSubmittedId}
+        />
       </div>
 
       <Modal
