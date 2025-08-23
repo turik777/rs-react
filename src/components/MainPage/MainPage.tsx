@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from '../Modal/Modal';
+import Button from '../Button/Button';
 
 function MainPage() {
   const [isControlledFormOpen, setControlledFormOpen] = useState(false);
@@ -12,15 +13,12 @@ function MainPage() {
       </div>
 
       <div className="flex justify-center gap-8">
-        <button className="button" onClick={() => setControlledFormOpen(true)}>
+        <Button onClick={() => setControlledFormOpen(true)}>
           Open Controlled Form
-        </button>
-        <button
-          className="button"
-          onClick={() => setUncontrolledFormOpen(true)}
-        >
+        </Button>
+        <Button onClick={() => setUncontrolledFormOpen(true)}>
           Open Uncontrolled Form
-        </button>
+        </Button>
       </div>
 
       <Modal
