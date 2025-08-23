@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { createPortal } from 'react-dom';
 
 interface IProps {
@@ -9,6 +9,17 @@ interface IProps {
 }
 
 const Modal: FC<IProps> = ({ title, isOpen, onClose, children }) => {
+  useEffect(() => {
+    const handlePress = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handlePress);
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const modalRoot = document.getElementById('modal-root');
