@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import Modal from '../Modal/Modal';
 import Button from '../Button/Button';
+import ControlledForm from '../ControlledForm/ControlledForm';
 
 function MainPage() {
   const [isControlledFormOpen, setControlledFormOpen] = useState(false);
   const [isUncontrolledFormOpen, setUncontrolledFormOpen] = useState(false);
+
+  const handleControlledSubmit = () => {
+    setControlledFormOpen(false);
+  };
 
   return (
     <div className="min-h-screen p-6">
@@ -25,7 +30,9 @@ function MainPage() {
         title="Controlled Form"
         isOpen={isControlledFormOpen}
         onClose={() => setControlledFormOpen(false)}
-      ></Modal>
+      >
+        <ControlledForm onSubmit={handleControlledSubmit} />
+      </Modal>
 
       <Modal
         title="Uncontrolled Form"

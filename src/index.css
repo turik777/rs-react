@@ -11,3 +11,11 @@
 .modal {
   @apply bg-white shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl;
 }
+
+.form-label {
+   @apply text-sm font-medium text-gray-900;
+}
+
+.form-input {
+  @apply w-full border border-gray-400 rounded-md shadow-sm p-1;
+}
