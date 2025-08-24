@@ -35,7 +35,14 @@ export const schema = z
     gender: z.enum(['male', 'female', 'other', ''], {
       message: errorMessages.gender,
     }),
-    country: z.enum(countries, { message: errorMessages.country }),
+    country: z
+      .string()
+      .refine((val) => countries.includes(val), {
+        message: errorMessages.country,
+      })
+      .refine((val) => val !== '', {
+        message: errorMessages.country,
+      }),
     picture: z
       .any()
       .refine((files) => files?.length === 1, errorMessages.picture)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '../Button/Button';
 import { schema, type TFormData } from '../../validation/schema';
 import { useFormStore } from '../../store/store';
@@ -12,7 +12,7 @@ interface IProps {
 const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
   const { countries } = useFormStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [password, setPassword] = useState('');
+  const passwordRef = useRef('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,14 +109,14 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
             Password
           </label>
           <input
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => (passwordRef.current = e.target.value)}
             name="password"
             id="password-uncontrolled"
             type="password"
             className="form-input"
             defaultValue=""
           />
-          <PasswordStrength password={password} />
+          <PasswordStrength password={passwordRef.current} />
           <ErrorMessage field="password" />
         </div>
         <div className="w-1/2">
@@ -160,6 +160,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
           list="country-list"
           className="form-input"
           placeholder="Type to search..."
+          defaultValue=""
         />
         <datalist id="country-list">
           {countries.map((country) => (

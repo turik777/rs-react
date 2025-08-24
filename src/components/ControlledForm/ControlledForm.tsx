@@ -3,10 +3,10 @@ import Button from '../Button/Button';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { schema, type TFormData } from '../../validation/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { countries } from '../../constants/countries';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { fileToBase64 } from '../../utils/fileToBase64';
 import PasswordStrength from '../PasswordStrength/PasswordStrength';
+import { useFormStore } from '../../store/store';
 
 interface IProps {
   onSubmit: (data: TFormData) => void;
@@ -31,6 +31,7 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
     },
   });
 
+  const { countries } = useFormStore();
   const password = watch('password');
 
   const processSubmit: SubmitHandler<TFormData> = async (data) => {
