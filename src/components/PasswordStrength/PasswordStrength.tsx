@@ -61,6 +61,7 @@ const PasswordStrength: FC<Props> = ({ password = '' }) => {
     <div className="pt-1">
       <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
         <div
+          data-testid="strength-bar"
           className={`h-full transition-all duration-200 ${getStrengthColor()}`}
           style={{ width: `${(strength / 5) * 100}%` }}
         ></div>
