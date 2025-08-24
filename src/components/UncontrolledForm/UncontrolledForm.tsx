@@ -63,24 +63,24 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
     <form className="space-y-4" onSubmit={handleSubmit} noValidate>
       <div className="flex gap-3">
         <div className="w-4/5">
-          <label htmlFor="name-controlled" className="form-label">
+          <label htmlFor="name-uncontrolled" className="form-label">
             Name
           </label>
           <input
             name="name"
-            id="name-controlled"
+            id="name-uncontrolled"
             className="form-input"
             autoFocus
           />
           <ErrorMessage field="name" />
         </div>
         <div className="w-1/5">
-          <label htmlFor="age-controlled" className="form-label">
+          <label htmlFor="age-uncontrolled" className="form-label">
             Age
           </label>
           <input
             name="age"
-            id="age-controlled"
+            id="age-uncontrolled"
             type="number"
             className="form-input"
           />
@@ -88,12 +88,12 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
         </div>
       </div>
       <div>
-        <label htmlFor="email-controlled" className="form-label">
+        <label htmlFor="email-uncontrolled" className="form-label">
           Email
         </label>
         <input
           name="email"
-          id="email-controlled"
+          id="email-uncontrolled"
           type="email"
           className="form-input"
         />
@@ -102,13 +102,13 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
 
       <div className="flex gap-3">
         <div className="w-1/2">
-          <label htmlFor="password-controlled" className="form-label">
+          <label htmlFor="password-uncontrolled" className="form-label">
             Password
           </label>
           <input
             onChange={(e) => setPassword(e.target.value)}
             name="password"
-            id="password-controlled"
+            id="password-uncontrolled"
             type="password"
             className="form-input"
           />
@@ -116,12 +116,12 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
           <ErrorMessage field="password" />
         </div>
         <div className="w-1/2">
-          <label htmlFor="passwordConfirm-controlled" className="form-label">
+          <label htmlFor="passwordConfirm-uncontrolled" className="form-label">
             Confirm Password
           </label>
           <input
             name="passwordConfirm"
-            id="passwordConfirm-controlled"
+            id="passwordConfirm-uncontrolled"
             type="password"
             className="form-input"
           />
@@ -146,34 +146,31 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
       </div>
 
       <div>
-        <label htmlFor="country-controlled" className="form-label">
+        <label htmlFor="country-uncontrolled" className="form-label">
           Country
         </label>
-        <select
-          id="country-controlled"
-          defaultValue=""
+        <input
           name="country"
+          id="country-uncontrolled"
+          list="country-list"
           className="form-input"
-        >
-          <option value="" disabled>
-            Select a country
-          </option>
+          placeholder="Type to search..."
+        />
+        <datalist id="country-list">
           {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
+            <option key={country} value={country} />
           ))}
-        </select>
+        </datalist>
         <ErrorMessage field="country" />
       </div>
 
       <div>
-        <label htmlFor="picture-controlled" className="form-label">
+        <label htmlFor="picture-uncontrolled" className="form-label">
           Profile Picture
         </label>
         <input
           name="picture"
-          id="picture-controlled"
+          id="picture-uncontrolled"
           type="file"
           accept="image/png, image/jpeg"
           className="w-full text-sm hover:text-gray-500 cursor-pointer"
@@ -182,10 +179,10 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
       </div>
 
       <div>
-        <label htmlFor="acceptTerms-controlled" className="flex items-center">
+        <label htmlFor="acceptTerms-uncontrolled" className="flex items-center">
           <input
             name="acceptTerms"
-            id="acceptTerms-controlled"
+            id="acceptTerms-uncontrolled"
             type="checkbox"
             className="cursor-pointer"
           />

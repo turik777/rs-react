@@ -21,9 +21,6 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
   } = useForm<TFormData>({
     resolver: zodResolver(schema),
     mode: 'onChange',
-    defaultValues: {
-      country: '',
-    },
   });
 
   const password = watch('password');
@@ -123,20 +120,18 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
         <label htmlFor="country-controlled" className="form-label">
           Country
         </label>
-        <select
+        <input
           id="country-controlled"
+          list="country-list"
           className="form-input"
+          placeholder="Type to search..."
           {...register('country')}
-        >
-          <option value="" disabled>
-            Select a country
-          </option>
+        />
+        <datalist id="country-list">
           {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
+            <option key={country} value={country} />
           ))}
-        </select>
+        </datalist>
         <ErrorMessage errors={errors} field="country" />
       </div>
 
