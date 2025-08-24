@@ -32,7 +32,7 @@ export const schema = z
     passwordConfirm: z
       .string()
       .min(1, { message: errorMessages.passwordConfirm }),
-    gender: z.enum(['male', 'female', 'other'], {
+    gender: z.enum(['male', 'female', 'other', ''], {
       message: errorMessages.gender,
     }),
     country: z.enum(countries, { message: errorMessages.country }),

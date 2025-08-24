@@ -21,6 +21,14 @@ const ControlledForm: React.FC<IProps> = ({ onSubmit }) => {
   } = useForm<TFormData>({
     resolver: zodResolver(schema),
     mode: 'onChange',
+    defaultValues: {
+      name: '',
+      age: 0,
+      email: '',
+      gender: '',
+      country: '',
+      acceptTerms: false,
+    },
   });
 
   const password = watch('password');

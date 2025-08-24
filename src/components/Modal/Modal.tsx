@@ -28,7 +28,7 @@ const Modal: FC<IProps> = ({ title, isOpen, onClose, children }) => {
   }
 
   return createPortal(
-    <div className="overlay" onClick={onClose}>
+    <div className="overlay" data-testid="overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center">
           <p className="text-2xl">{title}</p>

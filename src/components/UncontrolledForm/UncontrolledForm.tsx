@@ -70,6 +70,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
             name="name"
             id="name-uncontrolled"
             className="form-input"
+            defaultValue=""
             autoFocus
           />
           <ErrorMessage field="name" />
@@ -83,6 +84,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
             id="age-uncontrolled"
             type="number"
             className="form-input"
+            defaultValue={0}
           />
           <ErrorMessage field="age" />
         </div>
@@ -96,6 +98,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
           id="email-uncontrolled"
           type="email"
           className="form-input"
+          defaultValue=""
         />
         <ErrorMessage field="email" />
       </div>
@@ -111,6 +114,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
             id="password-uncontrolled"
             type="password"
             className="form-input"
+            defaultValue=""
           />
           <PasswordStrength password={password} />
           <ErrorMessage field="password" />
@@ -124,6 +128,7 @@ const UncontrolledForm: React.FC<IProps> = ({ onSubmit }) => {
             id="passwordConfirm-uncontrolled"
             type="password"
             className="form-input"
+            defaultValue=""
           />
           <ErrorMessage field="passwordConfirm" />
         </div>
