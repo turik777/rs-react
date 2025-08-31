@@ -1,1 +1,5 @@
 @import 'tailwindcss';
+
+.country-item {
+  @apply cursor-pointer rounded-xl border-b border-gray-300 p-2 hover:bg-gray-100;
+}
