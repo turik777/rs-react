@@ -4,12 +4,14 @@ import CountryDetails from '../CountryDetails/CountryDetails';
 import CountryListItem from '../CountryListItem/CountryListItem';
 import { CO2Resource } from '../../utils/CO2Resource';
 import CountrySort from '../CountrySort/CountrySort';
+import CountrySearch from '../CountrySearch/CountrySearch';
 
 const CountryList: FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(
     null
   );
   const [isAscending, setIsAscending] = useState<boolean>(true);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const CO2data: CO2Data = CO2Resource.read();
   const countries = Object.entries(CO2data);
 
@@ -17,7 +19,15 @@ const CountryList: FC = () => {
     setSelectedCountry(country);
   };
 
-  const sortedCountries = [...countries].sort(([a], [b]) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredCountries = countries.filter(([name]) =>
+    name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredAndSortedCountries = filteredCountries.sort(([a], [b]) => {
     if (isAscending) {
       return a.localeCompare(b);
     } else {
@@ -29,11 +39,12 @@ const CountryList: FC = () => {
     <div className="flex flex-col gap-6 md:flex-row">
       <div className="flex flex-col md:w-1/3">
         <h2 className="countries-header">Countries</h2>
+        <CountrySearch searchTerm={searchTerm} onSearch={handleSearch} />
         <CountrySort onSort={setIsAscending} isAscending={isAscending} />
 
         <div className="countries-list">
           <ul>
-            {sortedCountries.map(([name, country]) => (
+            {filteredAndSortedCountries.map(([name, country]) => (
               <CountryListItem
                 key={name}
                 name={name}

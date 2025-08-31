@@ -43,3 +43,7 @@
 .modal-label {
   @apply ml-2 cursor-pointer text-gray-800 capitalize hover:text-gray-500;
 }
+
+.search-input {
+  @apply w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:ring focus:ring-blue-500 focus:outline-none;
+}
