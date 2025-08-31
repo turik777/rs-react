@@ -47,3 +47,11 @@
 .search-input {
   @apply w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:ring focus:ring-blue-500 focus:outline-none;
 }
+
+.year-select {
+  @apply w-full rounded-md border border-gray-300 bg-white px-1 py-1 focus:border-blue-500 focus:ring-blue-500;
+}
+
+.row {
+  @apply border-b border-gray-200 hover:bg-gray-100;
+}

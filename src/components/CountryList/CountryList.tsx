@@ -5,6 +5,7 @@ import CountryListItem from '../CountryListItem/CountryListItem';
 import { CO2Resource } from '../../utils/CO2Resource';
 import CountrySort from '../CountrySort/CountrySort';
 import CountrySearch from '../CountrySearch/CountrySearch';
+import YearSelector from '../YearSelector/YearSelector';
 
 const CountryList: FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(
@@ -12,8 +13,14 @@ const CountryList: FC = () => {
   );
   const [isAscending, setIsAscending] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const CO2data: CO2Data = CO2Resource.read();
   const countries = Object.entries(CO2data);
+
+  const years = Object.values(CO2data).flatMap((country) =>
+    country.data.map((data) => data.year)
+  );
+  const allYears = [...new Set(years)].sort((a, b) => b - a);
 
   const handleCountryClick = (country: CountryData) => {
     setSelectedCountry(country);
@@ -21,6 +28,10 @@ const CountryList: FC = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleYearChange = (year: number) => {
+    setSelectedYear(year);
   };
 
   const filteredCountries = countries.filter(([name]) =>
@@ -39,6 +50,11 @@ const CountryList: FC = () => {
     <div className="flex flex-col gap-6 md:flex-row">
       <div className="flex flex-col md:w-1/3">
         <h2 className="countries-header">Countries</h2>
+        <YearSelector
+          years={allYears}
+          selectedYear={selectedYear}
+          onYearSelect={handleYearChange}
+        />
         <CountrySearch searchTerm={searchTerm} onSearch={handleSearch} />
         <CountrySort onSort={setIsAscending} isAscending={isAscending} />
 
@@ -57,7 +73,12 @@ const CountryList: FC = () => {
       </div>
 
       <div className="w-full rounded-xl bg-white p-6 shadow-lg md:w-2/3">
-        {selectedCountry && <CountryDetails countryData={selectedCountry} />}
+        {selectedCountry && (
+          <CountryDetails
+            countryData={selectedCountry}
+            selectedYear={selectedYear}
+          />
+        )}
 
         {!selectedCountry && (
           <div className="flex h-full items-center justify-center text-lg text-gray-800">

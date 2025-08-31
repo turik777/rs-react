@@ -1,12 +1,13 @@
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import type { CountryData, YearlyData } from '../../interfaces/interfaces';
 import ColumnSelectorModal from '../Modal/Modal';
 
 interface IProps {
   countryData: CountryData;
+  selectedYear: number | null;
 }
 
-const CountryDetails: FC<IProps> = ({ countryData }) => {
+const CountryDetails: FC<IProps> = ({ countryData, selectedYear }) => {
   const [showModal, setShowModal] = useState(false);
   const initialColumns: (keyof YearlyData)[] = [
     'year',
@@ -15,6 +16,7 @@ const CountryDetails: FC<IProps> = ({ countryData }) => {
     'co2_per_capita',
   ];
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+  const [highlightedRow, setHighlightedRow] = useState<number | null>(null);
 
   const [countryColumns] = countryData.data;
   const availableColumns = Object.keys(countryColumns || {}).filter(
@@ -27,6 +29,20 @@ const CountryDetails: FC<IProps> = ({ countryData }) => {
   };
 
   const allColumns = [...initialColumns, ...selectedColumns];
+
+  const filteredData = selectedYear
+    ? countryData.data.filter((yearlyData) => yearlyData.year === selectedYear)
+    : countryData.data;
+
+  useEffect(() => {
+    if (selectedYear) {
+      setHighlightedRow(selectedYear);
+      const timer = setTimeout(() => {
+        setHighlightedRow(null);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedYear]);
 
   return (
     <div>
@@ -52,23 +68,35 @@ const CountryDetails: FC<IProps> = ({ countryData }) => {
           </thead>
 
           <tbody className="text-sm font-light text-gray-600">
-            {countryData.data.map((yearlyData) => (
-              <tr
-                key={yearlyData.year}
-                className="border-b border-gray-200 hover:bg-gray-100"
-              >
-                {allColumns.map((col) => (
-                  <td
-                    key={`${yearlyData.year}-${col}`}
-                    className="px-4 py-2 text-left whitespace-nowrap"
-                  >
-                    {yearlyData[col] !== undefined && yearlyData[col] !== null
-                      ? yearlyData[col].toLocaleString()
-                      : 'N/A'}
-                  </td>
-                ))}
+            {filteredData.length > 0 &&
+              filteredData.map((yearlyData) => (
+                <tr
+                  key={yearlyData.year}
+                  className={`row ${yearlyData.year === highlightedRow ? 'bg-green-200' : ''}`}
+                >
+                  {allColumns.map((col) => (
+                    <td
+                      key={`${yearlyData.year}-${col}`}
+                      className="px-4 py-2 text-left whitespace-nowrap"
+                    >
+                      {yearlyData[col] !== undefined && yearlyData[col] !== null
+                        ? yearlyData[col].toLocaleString()
+                        : 'N/A'}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+
+            {filteredData.length === 0 && (
+              <tr>
+                <td
+                  colSpan={allColumns.length}
+                  className="px-4 py-2 text-center text-gray-500"
+                >
+                  No data available for the selected year.
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
