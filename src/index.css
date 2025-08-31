@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
+.main-container {
+  @apply mx-auto min-h-screen bg-gray-100 p-8;
+}
+
+.main-header {
+  @apply mb-12 text-center text-3xl font-bold;
+}
+
+.countries-header {
+  @apply mb-2 text-2xl font-semibold;
+}
+
+.countries-list {
+  @apply max-h-[80vh] w-full overflow-y-auto rounded-xl bg-white p-2 shadow-lg;
+}
+
 .country-item {
   @apply cursor-pointer rounded-xl border-b border-gray-300 p-2 hover:bg-gray-100;
 }
