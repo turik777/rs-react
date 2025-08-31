@@ -3,11 +3,13 @@ import type { CO2Data, CountryData } from '../../interfaces/interfaces';
 import CountryDetails from '../CountryDetails/CountryDetails';
 import CountryListItem from '../CountryListItem/CountryListItem';
 import { CO2Resource } from '../../utils/CO2Resource';
+import CountrySort from '../CountrySort/CountrySort';
 
 const CountryList: FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(
     null
   );
+  const [isAscending, setIsAscending] = useState<boolean>(true);
   const CO2data: CO2Data = CO2Resource.read();
   const countries = Object.entries(CO2data);
 
@@ -15,14 +17,23 @@ const CountryList: FC = () => {
     setSelectedCountry(country);
   };
 
+  const sortedCountries = [...countries].sort(([a], [b]) => {
+    if (isAscending) {
+      return a.localeCompare(b);
+    } else {
+      return b.localeCompare(a);
+    }
+  });
+
   return (
     <div className="flex flex-col gap-6 md:flex-row">
       <div className="flex flex-col md:w-1/3">
         <h2 className="countries-header">Countries</h2>
+        <CountrySort onSort={setIsAscending} isAscending={isAscending} />
 
         <div className="countries-list">
           <ul>
-            {countries.map(([name, country]) => (
+            {sortedCountries.map(([name, country]) => (
               <CountryListItem
                 key={name}
                 name={name}
