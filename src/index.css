@@ -3,3 +3,7 @@
 .country-item {
   @apply cursor-pointer rounded-xl border-b border-gray-300 p-2 hover:bg-gray-100;
 }
+
+.spinner {
+  @apply h-24 w-24 animate-spin rounded-full border-t-4 border-b-4 border-blue-500;
+}
