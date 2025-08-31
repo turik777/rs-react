@@ -23,3 +23,23 @@
 .spinner {
   @apply h-24 w-24 animate-spin rounded-full border-t-4 border-b-4 border-blue-500;
 }
+
+.overlay {
+  @apply fixed inset-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600/70;
+}
+
+.modal {
+  @apply relative mx-auto w-100 rounded-lg bg-white p-4 shadow-xl;
+}
+
+.button {
+  @apply cursor-pointer rounded-lg px-4 py-2 transition duration-200;
+}
+
+.modal-checkbox {
+  @apply h-5 w-5 cursor-pointer text-blue-600;
+}
+
+.modal-label {
+  @apply ml-2 cursor-pointer text-gray-800 capitalize hover:text-gray-500;
+}

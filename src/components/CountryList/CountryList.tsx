@@ -2,7 +2,7 @@ import { useState, type FC } from 'react';
 import type { CO2Data, CountryData } from '../../interfaces/interfaces';
 import CountryDetails from '../CountryDetails/CountryDetails';
 import CountryListItem from '../CountryListItem/CountryListItem';
-import { CO2Resource } from '../../utils/co2Resource';
+import { CO2Resource } from '../../utils/CO2Resource';
 
 const CountryList: FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(

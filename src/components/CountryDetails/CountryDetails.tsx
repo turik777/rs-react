@@ -1,25 +1,49 @@
-import React from 'react';
+import { useState, type FC } from 'react';
 import type { CountryData, YearlyData } from '../../interfaces/interfaces';
+import ColumnSelectorModal from '../Modal/Modal';
 
 interface IProps {
   countryData: CountryData;
 }
 
-const CountryDetails: React.FC<IProps> = ({ countryData }) => {
+const CountryDetails: FC<IProps> = ({ countryData }) => {
+  const [showModal, setShowModal] = useState(false);
   const initialColumns: (keyof YearlyData)[] = [
     'year',
     'population',
     'co2',
     'co2_per_capita',
   ];
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+
+  const [countryColumns] = countryData.data;
+  const availableColumns = Object.keys(countryColumns || {}).filter(
+    (col) => !initialColumns.includes(col)
+  );
+
+  const handleSelectColumns = (columns: string[]) => {
+    setSelectedColumns(columns);
+    setShowModal(false);
+  };
+
+  const allColumns = [...initialColumns, ...selectedColumns];
 
   return (
     <div>
+      <div className="mb-2 flex justify-end">
+        <button
+          onClick={() => setShowModal(true)}
+          className="button bg-blue-500 text-white hover:bg-blue-600"
+        >
+          Add Additional Columns
+        </button>
+      </div>
+
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-white">
           <thead className="bg-gray-300 text-sm leading-normal text-gray-800 uppercase">
             <tr>
-              {initialColumns.map((col) => (
+              {allColumns.map((col) => (
                 <th key={col} className="px-4 py-2 text-left">
                   {col.toString().replace(/_/g, ' ')}
                 </th>
@@ -33,7 +57,7 @@ const CountryDetails: React.FC<IProps> = ({ countryData }) => {
                 key={yearlyData.year}
                 className="border-b border-gray-200 hover:bg-gray-100"
               >
-                {initialColumns.map((col) => (
+                {allColumns.map((col) => (
                   <td
                     key={`${yearlyData.year}-${col}`}
                     className="px-4 py-2 text-left whitespace-nowrap"
@@ -48,6 +72,15 @@ const CountryDetails: React.FC<IProps> = ({ countryData }) => {
           </tbody>
         </table>
       </div>
+
+      {showModal && (
+        <ColumnSelectorModal
+          availableColumns={availableColumns}
+          selectedColumns={selectedColumns}
+          onSelectColumns={handleSelectColumns}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 };
