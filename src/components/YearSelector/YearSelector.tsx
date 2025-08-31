@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { memo, type FC } from 'react';
 
 interface IProps {
   years: number[];
@@ -32,4 +32,4 @@ const YearSelector: FC<IProps> = ({ years, selectedYear, onYearSelect }) => {
   );
 };
 
-export default YearSelector;
+export default memo(YearSelector);

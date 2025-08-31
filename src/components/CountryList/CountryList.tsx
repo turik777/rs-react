@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useState, useMemo, useCallback, type FC } from 'react';
 import type { CO2Data, CountryData } from '../../interfaces/interfaces';
 import CountryDetails from '../CountryDetails/CountryDetails';
 import CountryListItem from '../CountryListItem/CountryListItem';
@@ -15,36 +15,43 @@ const CountryList: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const CO2data: CO2Data = CO2Resource.read();
-  const countries = Object.entries(CO2data);
 
-  const years = Object.values(CO2data).flatMap((country) =>
-    country.data.map((data) => data.year)
-  );
-  const allYears = [...new Set(years)].sort((a, b) => b - a);
+  const countries = useMemo(() => Object.entries(CO2data), [CO2data]);
 
-  const handleCountryClick = (country: CountryData) => {
+  const allYears = useMemo(() => {
+    const years = Object.values(CO2data).flatMap((country) =>
+      country.data.map((data) => data.year)
+    );
+    return [...new Set(years)].sort((a, b) => b - a);
+  }, [CO2data]);
+
+  const handleCountryClick = useCallback((country: CountryData) => {
     setSelectedCountry(country);
-  };
+  }, []);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleYearChange = (year: number) => {
-    setSelectedYear(year);
-  };
-
-  const filteredCountries = countries.filter(([name]) =>
-    name.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+    },
+    []
   );
 
-  const filteredAndSortedCountries = filteredCountries.sort(([a], [b]) => {
-    if (isAscending) {
-      return a.localeCompare(b);
-    } else {
-      return b.localeCompare(a);
-    }
-  });
+  const handleYearChange = useCallback((year: number) => {
+    setSelectedYear(year);
+  }, []);
+
+  const filteredAndSortedCountries = useMemo(() => {
+    const filtered = countries.filter(([name]) =>
+      name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return filtered.sort(([a], [b]) => {
+      if (isAscending) {
+        return a.localeCompare(b);
+      } else {
+        return b.localeCompare(a);
+      }
+    });
+  }, [countries, searchTerm, isAscending]);
 
   return (
     <div className="flex flex-col gap-6 md:flex-row">

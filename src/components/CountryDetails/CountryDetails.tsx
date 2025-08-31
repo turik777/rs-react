@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { useEffect, useState, useMemo, useCallback, type FC } from 'react';
 import type { CountryData, YearlyData } from '../../interfaces/interfaces';
 import ColumnSelectorModal from '../Modal/Modal';
 
@@ -9,30 +9,37 @@ interface IProps {
 
 const CountryDetails: FC<IProps> = ({ countryData, selectedYear }) => {
   const [showModal, setShowModal] = useState(false);
-  const initialColumns: (keyof YearlyData)[] = [
-    'year',
-    'population',
-    'co2',
-    'co2_per_capita',
-  ];
+  const initialColumns = useMemo<(keyof YearlyData)[]>(
+    () => ['year', 'population', 'co2', 'co2_per_capita'],
+    []
+  );
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
   const [highlightedRow, setHighlightedRow] = useState<number | null>(null);
 
-  const [countryColumns] = countryData.data;
-  const availableColumns = Object.keys(countryColumns || {}).filter(
-    (col) => !initialColumns.includes(col)
-  );
+  const availableColumns = useMemo(() => {
+    const [countryColumns] = countryData.data;
+    return Object.keys(countryColumns || {}).filter(
+      (col) => !initialColumns.includes(col)
+    );
+  }, [countryData.data, initialColumns]);
 
-  const handleSelectColumns = (columns: string[]) => {
+  const handleSelectColumns = useCallback((columns: string[]) => {
     setSelectedColumns(columns);
     setShowModal(false);
-  };
+  }, []);
 
-  const allColumns = [...initialColumns, ...selectedColumns];
+  const allColumns = useMemo(
+    () => [...initialColumns, ...selectedColumns],
+    [selectedColumns, initialColumns]
+  );
 
-  const filteredData = selectedYear
-    ? countryData.data.filter((yearlyData) => yearlyData.year === selectedYear)
-    : countryData.data;
+  const filteredData = useMemo(() => {
+    return selectedYear
+      ? countryData.data.filter(
+          (yearlyData) => yearlyData.year === selectedYear
+        )
+      : countryData.data;
+  }, [countryData.data, selectedYear]);
 
   useEffect(() => {
     if (selectedYear) {

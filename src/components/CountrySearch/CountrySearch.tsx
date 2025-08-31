@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { memo, type FC } from 'react';
 
 interface IProps {
   searchTerm: string;
@@ -19,4 +19,4 @@ const CountrySearch: FC<IProps> = ({ searchTerm, onSearch }) => {
   );
 };
 
-export default CountrySearch;
+export default memo(CountrySearch);

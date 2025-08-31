@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { memo, type FC } from 'react';
 
 interface IProps {
   onSort: (isAscending: boolean) => void;
@@ -33,4 +33,4 @@ const CountrySort: FC<IProps> = ({ onSort, isAscending }) => {
   );
 };
 
-export default CountrySort;
+export default memo(CountrySort);

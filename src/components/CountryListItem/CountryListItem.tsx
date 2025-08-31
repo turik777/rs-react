@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { memo, type FC } from 'react';
 import type { CountryData } from '../../interfaces/interfaces';
 
 interface IProps {
@@ -27,4 +27,4 @@ const CountryListItem: FC<IProps> = ({ name, country, onCountryClick }) => {
   );
 };
 
-export default CountryListItem;
+export default memo(CountryListItem);
