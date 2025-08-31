@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useState, type FC, useCallback } from 'react';
 
 interface IProps {
   availableColumns: string[];
@@ -15,17 +15,17 @@ const ColumnSelectorModal: FC<IProps> = ({
 }) => {
   const [columns, setColumns] = useState<string[]>(initialSelectedColumns);
 
-  const handleCheckboxChange = (column: string) => {
+  const handleCheckboxChange = useCallback((column: string) => {
     setColumns((prevColumns) =>
       prevColumns.includes(column)
         ? prevColumns.filter((col) => col !== column)
         : [...prevColumns, column]
     );
-  };
+  }, []);
 
-  const handleApply = () => {
+  const handleApply = useCallback(() => {
     onSelectColumns(columns);
-  };
+  }, [columns, onSelectColumns]);
 
   return (
     <div className="overlay" onClick={onClose}>
