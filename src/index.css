@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+.main-container {
+  @apply mx-auto min-h-screen bg-gray-100 p-8;
+}
+
+.main-header {
+  @apply mb-12 text-center text-3xl font-bold;
+}
+
+.countries-header {
+  @apply mb-2 text-2xl font-semibold;
+}
+
+.countries-list {
+  @apply max-h-[70vh] w-full overflow-y-auto rounded-xl bg-white p-2 shadow-lg;
+}
+
+.country-item {
+  @apply cursor-pointer rounded-xl border-b border-gray-300 p-2 hover:bg-gray-100;
+}
+
+.spinner {
+  @apply h-24 w-24 animate-spin rounded-full border-t-4 border-b-4 border-blue-500;
+}
+
+.overlay {
+  @apply fixed inset-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600/70;
+}
+
+.modal {
+  @apply relative mx-auto w-100 rounded-lg bg-white p-4 shadow-xl;
+}
+
+.button {
+  @apply cursor-pointer rounded-lg px-4 py-1 transition duration-200;
+}
+
+.modal-checkbox {
+  @apply h-5 w-5 cursor-pointer text-blue-600;
+}
+
+.modal-label {
+  @apply ml-2 cursor-pointer text-gray-800 capitalize hover:text-gray-500;
+}
+
+.search-input {
+  @apply w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:ring focus:ring-blue-500 focus:outline-none;
+}
+
+.year-select {
+  @apply w-full rounded-md border border-gray-300 bg-white px-1 py-1 focus:border-blue-500 focus:ring-blue-500;
+}
+
+.row {
+  @apply border-b border-gray-200 hover:bg-gray-100;
+}
